@@ -12,6 +12,8 @@ module Para
         super(view)
       end
 
+
+
       def container(options = {}, &block)
         @model = options.delete(:model)
 
