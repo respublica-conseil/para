@@ -4,6 +4,10 @@
       = render partial: find_partial_for(relation, :actions), locals: { relation: relation, component: component, model: model, allow_adding_resource: allow_adding_resource }
 
     - if resources.length > 0
+      - if resources.total_count > 100
+        .page-entries-info
+          = page_entries(resources)
+
       %ul.tree.root-tree{ data: { url: component.relation_path(model.model_name.route_key, action: :tree), :"max-depth" => max_depth_for(model) } }
         = render partial: find_partial_for(model, 'tree_item'), collection: resources.roots, as: :root, locals: { model: model}
 
