@@ -32,6 +32,7 @@ module Para
               add_button_label: add_button_label,
               add_button_class: add_button_class,
               inset: inset?,
+              uncollapsed: uncollapsed?,
               render_partial: render_partial?,
               remote_partial_params: remote_partial_params
             }
@@ -50,9 +51,13 @@ module Para
       def inset?
         options.fetch(:inset, false)
       end
-      
+
+      def uncollapsed?
+        inset? && Para.config.uncollapse_inset_nested_fields
+      end
+
       def render_partial?
-        options[:render_partial] || object.errors.any? || (object.persisted? && inset?)
+        options[:render_partial] || object.errors.any? || (object.persisted? && uncollapsed?)
       end
 
       def remote_partial_params

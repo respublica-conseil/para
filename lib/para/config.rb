@@ -42,6 +42,9 @@ module Para
     mattr_accessor :dark_theme
     @@dark_theme = false
 
+    mattr_accessor :uncollapse_inset_nested_fields
+    @@uncollapse_inset_nested_fields = true
+
     # Allows changing default cache store used by Para to store jobs through
     # the ActiveJob::Status gem
     #

@@ -27,8 +27,16 @@ Para.config do |config|
   # config.resource_name_methods += [:full_name]
 
   # Configure the theme navigation bar color not gray but blue darker
-  # 
+  #
   # config.dark_theme = true
+
+  # Do not uncollapse by default "inset" nested fields, which makes all such nested field
+  # blocks get collapsed on page load, and can be easier to read for big blocks.
+  #
+  # This also speeds up page loading when used in conjunction to remote partial loading
+  # for nested fields
+  #
+  # config.uncollapse_inset_nested_fields = false
 
   # Set if the Para::Breadcrumb::Controller module should be included into the
   # app, allowing easy breadcrumbs management in the app.
