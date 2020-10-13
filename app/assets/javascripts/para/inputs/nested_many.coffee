@@ -18,20 +18,20 @@ class Para.NestedManyField
     @$fieldsList.on('sortupdate', $.proxy(@sortUpdate, this))
 
   sortUpdate: ->
-    @$fieldsList.find('.form-fields').each (i, el) ->
+    @$fieldsList.find('.form-fields:visible').each (i, el) ->
       $(el).find('.resource-position-field').val(i)
 
   initializeCocoon: ->
     @$fieldsList.on 'cocoon:after-insert', $.proxy(@afterInsertField, this)
     @$fieldsList.on 'cocoon:before-remove', $.proxy(@beforeRemoveField, this)
+    @$fieldsList.on 'cocoon:after-remove', $.proxy(@afterRemoveField, this)
 
   afterInsertField: (e, $element) ->
     if ($collapsible = $element.find('[data-open-on-insert="true"]')).length
       @openInsertedField($collapsible)
 
     if @orderable
-      @$fieldsList.sortable('destroy')
-      @initializeOrderable()
+      @$fieldsList.sortable('reload')
       @sortUpdate()
 
     $element.simpleForm()
@@ -41,6 +41,10 @@ class Para.NestedManyField
     # Remove attributes mappings field for new records since it will try to
     # create an empty nested resource otherwise
     $nextEl.remove() if $nextEl.is('[data-attributes-mappings]') and not $element.is('[data-persisted]')
+
+  # When a sub field is removed, update every sub field position
+  afterRemoveField: ->
+    @sortUpdate();
 
   openInsertedField: ($field) ->
     $target = $($field.attr('href'))
