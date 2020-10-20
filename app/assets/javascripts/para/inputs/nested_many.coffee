@@ -13,11 +13,10 @@ class Para.NestedManyField
 
     @$fieldsList.sortable
       handle: '.order-anchor'
-      forcePlaceholderSize: true
+      animation: 150
+      onUpdate: $.proxy(@handleOrderingUpdated, this)
 
-    @$fieldsList.on('sortupdate', $.proxy(@sortUpdate, this))
-
-  sortUpdate: ->
+  handleOrderingUpdated: ->
     @$fieldsList.find('.form-fields:visible').each (i, el) ->
       $(el).find('.resource-position-field').val(i)
 
@@ -31,8 +30,9 @@ class Para.NestedManyField
       @openInsertedField($collapsible)
 
     if @orderable
-      @$fieldsList.sortable('reload')
-      @sortUpdate()
+      @$fieldsList.sortable('destroy')
+      @initializeOrderable()
+      @handleOrderingUpdated()
 
     $element.simpleForm()
 
@@ -44,7 +44,7 @@ class Para.NestedManyField
 
   # When a sub field is removed, update every sub field position
   afterRemoveField: ->
-    @sortUpdate();
+    @handleOrderingUpdated();
 
   openInsertedField: ($field) ->
     $target = $($field.attr('href'))

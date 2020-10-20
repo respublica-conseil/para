@@ -122,10 +122,9 @@ class Para.MultiSelectInput extends Vertebra.View
 
     @$selectedItems.sortable
       handle: '.order-anchor'
-      forcePlaceholderSize: true
-      placeholder: "<tr><td colspan='#{ columnsCount }'></td></tr>"
+      animation: 150
 
-    @$selectedItems.on('sortupdate', @selectedItemsSorted)
+    @$selectedItems.on('sort', @selectedItemsSorted)
 
   selectedItemsSorted: =>
     indices = {}

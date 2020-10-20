@@ -6,7 +6,8 @@
 #= require jasny-bootstrap
 #= require simple_form_extension
 #= require jquery.scrollto
-#= require html5-sortable
+#= require Sortable
+#= require jquery.sortable
 #= require cocoon
 #= require jquery.remote-modal-form
 #= require jquery.iframe-transport
