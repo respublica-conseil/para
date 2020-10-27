@@ -33,9 +33,9 @@ module Para
       end
 
       def ensure_total_progress
-        return if @total_progress
+        return if @_total_progress
 
-        @total_progress ||= if respond_to?(:total_progress, true)
+        @_total_progress ||= if respond_to?(:total_progress, true)
           progress.total = total_progress
         else
           progress[:total]

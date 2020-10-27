@@ -9,7 +9,11 @@
 .actions-control
   list-style: none
   padding: 0
-  margin: 0
+  margin: 0 15px 0 0
+
+  &:last-child
+    margin-right: 0
+
   li
     +inline-block
     padding: 0 5px
@@ -42,7 +46,7 @@
 
   .page-list-heading
     border-bottom: 1px solid $gray-light
-    
+
   .page-list-body:last-child
     padding-bottom: 0
 
@@ -76,7 +80,7 @@
       color: $gray
       border-color: transparent
       &:hover
-        color: $gray-dark    
+        color: $gray-dark
 
 
 .page-entries-info

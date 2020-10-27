@@ -12,8 +12,11 @@ module Para
       end
 
       def build_action(action)
-        content_tag(:div, class: 'actions-control pull-right') do  
-          link_to(action[:url], class: 'btn btn-default btn-shadow') do
+        link_options = action.fetch(:link_options, {})
+        link_options[:class] ||= "btn btn-default btn-shadow"
+
+        content_tag(:div, class: 'actions-control pull-right') do
+          link_to(action[:url], link_options) do
             (
               (fa_icon(action[:icon], class: 'fa-fw') if action[:icon]) +
               action[:label]
