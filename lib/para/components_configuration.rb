@@ -1,7 +1,7 @@
 module Para
   class ComponentsConfiguration
-    class UndefinedComponentTypeError < StandardError
-    end
+    class UndefinedComponentTypeError < StandardError; end
+    class ComponentTooDeepError < StandardError; end
 
     def draw(&block)
       return unless components_installed?
@@ -48,7 +48,24 @@ module Para
     end
 
     def component_configuration_for(identifier)
-      sections.map(&:components).flatten.find { |c| c.identifier.to_s == identifier.to_s }
+      sections.each do |section|
+        section.components.each do |component|
+          # If one of the section component has the searched identifier return it
+          if component.identifier.to_s == identifier.to_s
+            return component
+          else
+            component.child_components.each do |child_component|
+              # If one of the component children has the searched identifier return it
+              if child_component.identifier.to_s == identifier.to_s
+                return child_component
+              end
+            end
+          end
+        end
+      end
+
+      # Return nil if the identifier was not found
+      nil
     end
 
     private
@@ -60,6 +77,10 @@ module Para
 
         section.components.each do |component|
           components_ids_hash[component.identifier] = component.model.id
+
+          component.child_components.each do |child_component|
+            components_ids_hash[child_component.identifier] = child_component.model.id
+          end
         end
       end
     end
@@ -129,8 +150,8 @@ module Para
         instance_eval(&block)
       end
 
-      def component(*args)
-        components << Component.new(*args)
+      def component(*args, &block)
+        components << Component.new(*args, &block)
       end
 
       def components
@@ -149,13 +170,17 @@ module Para
     end
 
     class Component
-      attr_accessor :identifier, :type, :shown_if, :options, :model
+      attr_accessor :identifier, :type, :shown_if, :options, :model, :parent
 
-      def initialize(identifier, type_identifier, shown_if: nil, **options)
-        self.identifier = identifier.to_s
-        self.type = Para::Component.registered_components[type_identifier]
-        self.options = options
-        self.shown_if = shown_if
+      def initialize(identifier, type_identifier, shown_if: nil, **options, &block)
+        @identifier = identifier.to_s
+        @type = Para::Component.registered_components[type_identifier]
+        @options = options
+        @shown_if = shown_if
+        @parent = options.delete(:parent)
+
+        # Build child components if a block is provided
+        instance_eval(&block) if block
 
         unless type
           raise UndefinedComponentTypeError.new(
@@ -165,10 +190,29 @@ module Para
         end
       end
 
+      def component(*args, **child_options, &block)
+        # Do not allow nesting components more than one level as the display of illimited
+        # child nesting deepness is not implemented
+        if parent
+          raise ComponentTooDeepError, "Cannot nest components more than one level"
+        end
+
+        child_component_options = child_options.merge(parent: self)
+        child_components << Component.new(*args, **child_component_options, &block)
+      end
+
+      def child_components
+        @child_components ||= []
+      end
+
       def refresh(attributes = {})
-        self.model = type.where(identifier: identifier).first_or_initialize
+        @model = type.where(identifier: identifier).first_or_initialize
         model.update_with(attributes.merge(options_with_defaults))
         model.save!
+
+        child_components.each_with_index do |child_component, child_index|
+          child_component.refresh(component_section: nil, position: child_index)
+        end
       end
 
       # Ensures unset :configuration store options are set to nil to allow
@@ -179,7 +223,14 @@ module Para
         configurable_keys += options.keys
         configurable_keys.uniq!
 
-        configurable_keys.each_with_object({}) do |key, hash|
+        options_with_defaults = {}
+
+        # Assign parent component resource to the final attribute options, assigning nil
+        # if the `:parent` option is empty, to allow extracting a component from its
+        # parent by just moving the component call outside of its parent block.
+        options_with_defaults[:parent_component] = parent&.model
+
+        configurable_keys.each_with_object(options_with_defaults) do |key, hash|
           hash[key] = options[key]
         end
       end

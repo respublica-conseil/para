@@ -16,7 +16,7 @@
             - component_section.components.each do |component|
               - if can?(:manage, component) && show_component?(component)
                 %li.component-item{ class: (@component == component) && 'active' }
-                  = link_to component.name, component.path
+                  = link_to component.main_navigation_name, component.path
 
     - else
       %li.component-section-item

@@ -3,7 +3,7 @@
 #
 module Para
   module Cache
-    class Item < ActiveRecord::Base
+    class Item < Para::ApplicationRecord
       def value
         Marshal.load(::Base64.decode64(self[:value])) if self[:value].present?
       end

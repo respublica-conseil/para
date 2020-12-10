@@ -1,0 +1,10 @@
+.top-nav-tabs-affix-placeholder
+  %ul.top-nav-tabs-affix.nav.nav-tabs{ role: "tablist", "data-top-level-affix": true }
+    %li{ class: ("active" if active_component == parent_component) }
+      = link_to parent_component.path do
+        = parent_component.name
+
+    - parent_component.child_components.each do |child_component|
+      %li{ class: ("active" if active_component == child_component) }
+        = link_to child_component.path do
+          = child_component.name

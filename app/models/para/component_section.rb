@@ -1,5 +1,5 @@
 module Para
-  class ComponentSection < ActiveRecord::Base
+  class ComponentSection < Para::ApplicationRecord
     has_many :components, -> { ordered }, class_name: 'Para::Component::Base',
              autosave: true, foreign_key: :component_section_id,
              dependent: :destroy

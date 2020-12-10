@@ -1,6 +1,6 @@
 module Para
   module Page
-    class SectionResource < ActiveRecord::Base
+    class SectionResource < Para::ApplicationRecord
       self.table_name = 'para_page_section_resources'
 
       acts_as_orderable parent: :section, as: :section_resources

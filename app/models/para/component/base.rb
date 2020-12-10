@@ -1,6 +1,6 @@
 module Para
   module Component
-    class Base < ActiveRecord::Base
+    class Base < Para::ApplicationRecord
       self.table_name = 'para_components'
 
       class_attribute :component_name
@@ -16,7 +16,14 @@ module Para
 
       configurable_on :controller
 
-      belongs_to :component_section, class_name: 'Para::ComponentSection'
+      with_belongs_to_optional_option_if_needed do
+        belongs_to :component_section, class_name: 'Para::ComponentSection'
+        belongs_to :parent_component, class_name: 'Para::Component::Base'
+      end
+
+      has_many :child_components, -> { ordered },
+                                  class_name: 'Para::Component::Base',
+                                  foreign_key: 'parent_component_id'
 
       validates :identifier, :type, presence: true
 
@@ -28,6 +35,13 @@ module Para
         read_attribute(:name) || ::I18n.t(
           "components.component.#{ identifier }",
           default: identifier.humanize
+        )
+      end
+
+      def main_navigation_name
+        ::I18n.t(
+          "components.main_navigation.#{ identifier }",
+          default: name
         )
       end
 

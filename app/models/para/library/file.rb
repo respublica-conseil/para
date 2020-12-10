@@ -1,6 +1,6 @@
 module Para
   module Library
-    class File < ActiveRecord::Base
+    class File < Para::ApplicationRecord
       if defined?(ActiveStorage)
         has_one_attached :attachment
 
