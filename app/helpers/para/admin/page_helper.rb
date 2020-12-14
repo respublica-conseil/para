@@ -36,7 +36,7 @@ module Para
       end
 
       def component_navigation
-        parent_component = (
+        parent_component = @component && (
           @component.parent_component ||
           @component.child_components.any? && @component
         )
