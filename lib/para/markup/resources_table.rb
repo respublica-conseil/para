@@ -92,9 +92,9 @@ module Para
         end
 
         content_tag(:th, options) do
-          if (sort = options.delete(:sort))
+          if search && (sort = options.delete(:sort))
             view.sort_link(search, *sort, label, hide_indicator: true)
-          elsif searchable?(field_name)
+          elsif search && searchable?(field_name)
             view.sort_link(search, field_name, label, hide_indicator: true)
           else
             label
