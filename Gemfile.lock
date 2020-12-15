@@ -9,7 +9,7 @@ GIT
 PATH
   remote: .
   specs:
-    para (0.8.11)
+    para (0.8.12)
       active_decorator (~> 1.0)
       activejob-status
       bootstrap-sass (~> 3.3.0)

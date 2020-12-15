@@ -13,14 +13,14 @@ en:
           error: "Could not delete %{model}"
         clone:
           success: "%{model} cloned"
-          error: "Could not clone %{model}"  
-    
+          error: "Could not clone %{model}"
+
     jobs:
       para/importer/base:
         progressing: "The file is being imported, please wait a few moments ..."
         success: "The import of the file was successfully completed"
         success_with_errors: |
-          The import of the file was done, but some lines 
+          The import of the file was done, but some lines
           were not taken into account due to errors :
         other_errors: "<br>And <b>%{count}</b> others errors ..."
         error: "The selected file contains errors and could not be imported"
@@ -40,9 +40,6 @@ en:
     confirmation:
       shared:
         destroy: 'Are you sure that you want to delete %{model} ?'
-    
-    component:
-      none_created: "No components yet ..."
 
     component:
       create: "Create a component"
@@ -146,7 +143,7 @@ en:
         type: "Type"
         model_type: "Resource"
         namespaced: "Only list component's resources"
-  
+
   activemodel:
     models:
       settings_rails/form:
