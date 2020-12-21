@@ -5,8 +5,10 @@ module Para
     #
     def admin_component_sections
       @admin_component_sections ||= begin
-        Para::ComponentSection.ordered.includes(:components).tap do |sections|
-          sections.flat_map(&:components).each(&method(:decorate))
+        sections = Para::ComponentSection.ordered.includes(:components, :parent_component)
+
+        sections.tap do |loaded_sections|
+          loaded_sections.flat_map(&:components).each(&method(:decorate))
         end
       end
     end
