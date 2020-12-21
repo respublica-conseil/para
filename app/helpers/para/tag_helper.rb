@@ -19,9 +19,13 @@ module Para
       attributes = model_field_mappings(model).fields
       relation = options.fetch(:relation, model.name.to_s.underscore.pluralize)
       allow_adding_resource = options.fetch(:addable, true)
+      force_list = options.fetch(:force_list, false)
 
-      partial = :list
-      partial = :tree if model.respond_to?(:roots) && can?(:tree, model)
+      partial = if !force_list && model.respond_to?(:roots) && can?(:tree, model)
+        :tree
+      else
+        :list
+      end
 
       render(
         partial: find_partial_for(relation, partial),
