@@ -25,5 +25,11 @@ module Para
       config = Para.components.component_configuration_for(component.identifier)
       !config.shown_if || instance_exec(&config.shown_if)
     end
+
+    def current_component_or_parent?(component)
+      return false unless @component
+
+      @component == component || @component.parent_component == component
+    end
   end
 end
