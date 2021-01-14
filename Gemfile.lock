@@ -12,7 +12,7 @@ PATH
     para (0.8.14)
       active_decorator (~> 1.0)
       activejob-status
-      bootstrap-sass (~> 3.3.0)
+      bootstrap-sass (>= 3.3, < 3.5)
       cancancan (~> 3.0)
       closure_tree (~> 7.0)
       cocoon
@@ -95,9 +95,9 @@ GEM
     bootstrap-kaminari-views (0.0.5)
       kaminari (>= 0.13)
       rails (>= 3.1)
-    bootstrap-sass (3.3.7)
+    bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
-      sass (>= 3.3.4)
+      sassc (>= 2.0.0)
     builder (3.2.4)
     cancancan (3.2.1)
     chunky_png (1.4.0)
