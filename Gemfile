@@ -15,7 +15,7 @@ gemspec
 
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 5.0.0'
 
 gem 'devise', '>= 3.0'
 gem 'simple_form'
