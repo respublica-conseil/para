@@ -5,7 +5,7 @@ class Para.NestedManyField
     @initializeOrderable()
     @initializeCocoon()
 
-    @$field.on 'shown.bs.collapse', $.proxy(@collapseShown, this)
+    @$field.on 'shown.bs.collapse', @stoppingPropagation(@collapseShown)
 
   initializeOrderable: ->
     @orderable = @$field.hasClass('orderable')
@@ -21,11 +21,17 @@ class Para.NestedManyField
       $(el).find('.resource-position-field').val(i)
 
   initializeCocoon: ->
-    @$fieldsList.on 'cocoon:after-insert', $.proxy(@afterInsertField, this)
-    @$fieldsList.on 'cocoon:before-remove', $.proxy(@beforeRemoveField, this)
-    @$fieldsList.on 'cocoon:after-remove', $.proxy(@afterRemoveField, this)
+    @$fieldsList.on 'cocoon:after-insert', @afterInsertField
+    @$fieldsList.on 'cocoon:before-remove', @beforeRemoveField
+    @$fieldsList.on 'cocoon:after-remove', @afterRemoveField
 
-  afterInsertField: (e, $element) ->
+  stoppingPropagation: (callback) =>
+    (e, args...) =>
+      e.stopPropagation()
+      callback(e, args...)
+
+
+  afterInsertField: (e, $element) =>
     if ($collapsible = $element.find('[data-open-on-insert="true"]')).length
       @openInsertedField($collapsible)
 
@@ -36,21 +42,21 @@ class Para.NestedManyField
 
     $element.simpleForm()
 
-  beforeRemoveField: (e, $element) ->
+  beforeRemoveField: (e, $element) =>
     $nextEl = $element.next()
     # Remove attributes mappings field for new records since it will try to
     # create an empty nested resource otherwise
     $nextEl.remove() if $nextEl.is('[data-attributes-mappings]') and not $element.is('[data-persisted]')
 
   # When a sub field is removed, update every sub field position
-  afterRemoveField: ->
+  afterRemoveField: =>
     @handleOrderingUpdated();
 
   openInsertedField: ($field) ->
     $target = $($field.attr('href'))
     $target.collapse('show')
 
-  collapseShown: (e) ->
+  collapseShown: (e) =>
     $target = $(e.target)
 
     if $target.is("[data-rendered]") or $target.data("rendered")
