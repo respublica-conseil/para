@@ -284,8 +284,8 @@ GEM
       redactor-rails
       selectize-rails
       simple_form
-    spreadsheet (1.2.6)
-      ruby-ole (>= 1.0)
+    spreadsheet (1.2.7)
+      ruby-ole
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
