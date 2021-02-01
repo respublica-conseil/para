@@ -218,6 +218,8 @@ GEM
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
     pg (1.2.3)
+    polyamorous (2.3.0)
+      activerecord (>= 5.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -303,8 +305,8 @@ GEM
       redactor-rails
       selectize-rails
       simple_form
-    spreadsheet (1.2.6)
-      ruby-ole (>= 1.0)
+    spreadsheet (1.2.7)
+      ruby-ole
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
