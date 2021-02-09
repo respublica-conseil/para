@@ -1,1 +1,1 @@
-= render partial: find_partial_for(model, :fields), locals: { form: form }
+= render partial: find_partial_for(model, form.nested_fields_partial_name), locals: { form: form }

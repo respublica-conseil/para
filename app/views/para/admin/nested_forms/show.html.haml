@@ -1,6 +1,15 @@
 - nested_form = nil
 
-- para_form_for(@object, url: "") do |form|
+-# Initialize an unredered form builder that will only be used to create the nested fields
+-# by using the yielded block form builder argument.
+-#
+-# The form's object name is set through the provided :object_name param to ensure that
+-# the form inputs are named correctly in the loading form.
+-#
+-# Builder options allow to customize the options passed to the form builder to customize
+-# the rendered partials.
+-#
+- para_form_for(@object, @builder_options.merge(url: "")) do |form|
   - form.object_name = @object_name
   - nested_form = capture do
     = render(partial: find_partial_for(@model, :remote_nested_form), locals: { form: form, model: @model, object: @object, object_name: @object_name })

@@ -6,7 +6,7 @@
           = render partial: find_partial_for(model, 'nested_one/container', partial_dir: 'inputs'), locals: { nested_form: nested_form, form: form, model: nested_form.object.class, subclass: subclass, nested_locals: nested_locals }
 
     - else
-      = render partial: find_partial_for(model, :fields), locals: { form: nested_form, parent: form.object }.merge(nested_locals)
+      = render partial: find_partial_for(model, form.nested_fields_partial_name), locals: { form: nested_form, parent: form.object }.merge(nested_locals)
 
   - if defined?(subclass) && subclass
     = render partial: 'para/inputs/nested_one/add_with_subclasses', locals: { form: form, model: model, dom_identifier: dom_identifier, nested_locals: nested_locals, attribute_name: attribute_name, subclasses: subclasses, add_button_label: add_button_label, add_button_class: add_button_class, subclass: subclass }

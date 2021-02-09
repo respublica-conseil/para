@@ -76,6 +76,14 @@ module Para
         nested? && options[:parent_builder].object
       end
 
+      # Returns the partial name to be looked up for rendering used inside the nested
+      # fields partials, for the nested fields container and the remote nested fields
+      # partial.
+      #
+      def nested_fields_partial_name
+        :fields
+      end
+
       private
 
       def default_resource_name

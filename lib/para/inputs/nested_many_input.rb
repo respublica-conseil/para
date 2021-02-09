@@ -3,7 +3,7 @@ module Para
     class NestedManyInput < NestedBaseInput
       attr_reader :resource
 
-      def input(wrapper_options = nil)
+      def input(_wrapper_options = nil)
         input_html_options[:class] << "nested-many"
 
         orderable = options.fetch(:orderable, model.orderable?)
@@ -39,6 +39,8 @@ module Para
           )
         end
       end
+
+      private
 
       def parent_model
         @parent_model ||= @builder.object.class
