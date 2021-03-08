@@ -9,7 +9,7 @@ GIT
 PATH
   remote: .
   specs:
-    para (0.9.3)
+    para (0.9.3.1)
       active_decorator (~> 1.0)
       activejob-status
       bootstrap-sass (>= 3.3, < 3.5)
@@ -157,7 +157,7 @@ GEM
     erubi (1.10.0)
     erubis (2.7.0)
     execjs (2.7.0)
-    ffi (1.14.2)
+    ffi (1.15.0)
     font-awesome-rails (4.7.0.7)
       railties (>= 3.2, < 7)
     font-awesome-sass (5.15.1)

@@ -7,20 +7,23 @@ module Para
         @original = original
         @clone = clone
       end
-      
+
       def clone!
         return unless defined?(ActiveStorage)
-        
-        attachment_reflections = original.class.reflections.select { |k, v| 
-          k.to_s.match(/_attachment\z/) && 
-          v.options[:class_name] == "ActiveStorage::Attachment" 
+
+        attachment_reflections = original.class.reflections.select { |k, v|
+          k.to_s.match(/_attachment\z/) &&
+          v.options[:class_name] == "ActiveStorage::Attachment"
         }
 
         attachment_reflections.each do |name, reflection|
           original_attachment = original.send(name)
           next unless original_attachment
-          
+
           association_name = name.gsub(/_attachment\z/, "")
+
+          # Handle missing file in storage service by bypassing the attachment cloning
+          next unless ActiveStorage::Blob.service.exist?(original_attachment.blob&.key)
 
           Para::ActiveStorageDownloader.new(original_attachment).download_blob_to_tempfile do |tempfile|
             clone.send(association_name).attach({
