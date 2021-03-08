@@ -144,7 +144,7 @@ GEM
       sass (>= 3.2, < 3.5)
     compass-rails (2.0.1)
       compass (~> 1.0.0)
-    concurrent-ruby (1.1.7)
+    concurrent-ruby (1.1.8)
     crass (1.0.6)
     deep_cloneable (3.1.0)
       activerecord (>= 3.1.0, < 7)
