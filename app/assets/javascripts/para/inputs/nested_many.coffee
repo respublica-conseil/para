@@ -21,9 +21,9 @@ class Para.NestedManyField
       $(el).find('.resource-position-field').val(i)
 
   initializeCocoon: ->
-    @$fieldsList.on 'cocoon:after-insert', @afterInsertField
-    @$fieldsList.on 'cocoon:before-remove', @beforeRemoveField
-    @$fieldsList.on 'cocoon:after-remove', @afterRemoveField
+    @$fieldsList.on 'cocoon:after-insert', @stoppingPropagation(@afterInsertField)
+    @$fieldsList.on 'cocoon:before-remove', @stoppingPropagation(@beforeRemoveField)
+    @$fieldsList.on 'cocoon:after-remove', @stoppingPropagation(@afterRemoveField)
 
   stoppingPropagation: (callback) =>
     (e, args...) =>
