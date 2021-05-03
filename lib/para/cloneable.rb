@@ -20,7 +20,7 @@ module Para
       processed_options = Para::Cloneable::IncludeTreeBuilder.new(self, cloneable_options).build
       options = options.reverse_merge(processed_options)
       callback = build_clone_callback(options.delete(:prepare))
-      
+
       deep_clone(options) do |original, clone|
         Para::Cloneable::AttachmentsCloner.new(original, clone).clone!
         callback&.call(original, clone)
@@ -63,9 +63,23 @@ module Para
         # if other sibling models don't define those relations
         options[:skip_missing_associations] = true
 
-        self.cloneable_options = options.reverse_merge({
+        # If `acts_as_cloneable` is called multiple times, for example by a parent class
+        # and the by its subclass, ensure that we don't lose the previously defined
+        # cloneable options, to avoid having to repeat the same include options in each
+        # subclass, if it has to define subclass specific cloneable options.
+        previous_cloneable_options = cloneable_options || {}
+
+        # Prepare the new cloneable options hash with the provided arguments
+        new_cloneable_options = options.reverse_merge({
           include: args
         })
+
+        # Merges previous and new cloneable options into the cloneable_options class
+        # attribute, also merging the `:include` array
+        self.cloneable_options =
+          previous_cloneable_options.merge(new_cloneable_options) do |key, a, b|
+            a.is_a?(Array) && b.is_a?(Array) ? (a + b).uniq : b
+          end
       end
 
       def cloneable?
