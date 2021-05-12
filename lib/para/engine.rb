@@ -24,6 +24,7 @@ module Para
 
     initializer 'Para Cloneable' do
       ActiveSupport.on_load(:active_record) do
+        prepend Para::Ext::DeepCloneExtension
         include Para::Cloneable
       end
     end

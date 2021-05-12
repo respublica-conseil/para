@@ -17,7 +17,7 @@ module Para
     # macro.
     #
     def deep_clone!(options = {})
-      processed_options = Para::Cloneable::IncludeTreeBuilder.new(self, cloneable_options).build
+      processed_options = Para::Cloneable::IncludeTreeBuilder.new(self).build
       options = options.reverse_merge(processed_options)
       callback = build_clone_callback(options.delete(:prepare))
 

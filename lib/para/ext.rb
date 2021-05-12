@@ -10,6 +10,7 @@ module Para
 end
 
 require 'para/ext/paperclip'
+require 'para/ext/deep_cloneable'
 require 'para/ext/active_job_status'
 require 'para/ext/active_record_nested_attributes'
 require 'para/ext/request_iframe_xhr'
