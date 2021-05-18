@@ -17,12 +17,14 @@ module Para
     # macro.
     #
     def deep_clone!(options = {})
+      dictionary = options[:dictionary] ||= {}
+
       processed_options = Para::Cloneable::IncludeTreeBuilder.new(self).build
       options = options.reverse_merge(processed_options)
       callback = build_clone_callback(options.delete(:prepare))
 
       deep_clone(options) do |original, clone|
-        Para::Cloneable::AttachmentsCloner.new(original, clone).clone!
+        Para::Cloneable::AttachmentsCloner.new(original, clone, dictionary).clone!
         callback&.call(original, clone)
       end
     end
