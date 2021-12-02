@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Para
   module Cloneable
     # This object acts as a service to compile a nested cloneable options hash to be
@@ -49,7 +51,7 @@ module Para
     #          }
     #
     class IncludeTreeBuilder
-      attr_reader :resource,  :cloneable_options
+      attr_reader :resource, :cloneable_options
 
       def initialize(resource)
         @resource = resource
@@ -73,26 +75,56 @@ module Para
       # if it exist, which include the attributes that shouldn't be duplicated when
       # the resource is cloned.
       #
-      def build_cloneable_options_tree(resource)
+      def build_cloneable_options_tree(resource, path = [])
         cloneable_options = resource.cloneable_options
-        options = {}
 
         # Iterate over the resource's cloneable options' :include array and recursively
         # add nested included resources to its own included resources.
         options = cloneable_options[:include].each_with_object({}) do |reflection_name, hash|
+          # This avoids cyclic dependencies issues by stopping nested association
+          # inclusions before the cycle starts.
+          #
+          # For example, if a post includes its author, and the author includes its posts,
+          # this would make the system fail with a stack level too deep error. Here this
+          # guard allows the inclusion to stop at :
+          #
+          #   { posts: { author: { posts: { author: {}}}}}
+          #
+          # Which ensures that, using the dictionary strategy of deep_cloneable, all
+          # posts' authors' posts will have their author mapped to an already cloned
+          # author when it comes to cloning the "author" 4th level of the include tree.
+          #
+          # This is not the most optimized solution, but works well enough as if the
+          # author's posts match previously cloned posts, they won't be cloned as they'll
+          # exist in the cloned resources dictionary.
+          next if path.length >= 4 &&
+                  path[-4] == path[-2] &&
+                  path[-2] == reflection_name &&
+                  path[-3] == path[-1]
+
           hash[reflection_name] = {}
 
-          if (reflection = resource.class.reflections[reflection_name.to_s])
-            reflection_options = hash[reflection_name]
-            association_target = resource.send(reflection_name)
+          unless (reflection = resource.class.reflections[reflection_name.to_s])
+            next
+          end
 
-            if reflection.collection?
-              association_target.each do |nested_resource|
-                add_reflection_options(reflection_options, nested_resource)
-              end
-            else
-              add_reflection_options(reflection_options, association_target)
+          reflection_options = hash[reflection_name]
+          association_target = resource.send(reflection_name)
+
+          if reflection.collection?
+            association_target.each do |nested_resource|
+              add_reflection_options(
+                reflection_options,
+                nested_resource,
+                [*path, reflection_name]
+              )
             end
+          else
+            add_reflection_options(
+              reflection_options,
+              association_target,
+              [*path, reflection_name]
+            )
           end
         end
 
@@ -104,11 +136,11 @@ module Para
         options
       end
 
-      def add_reflection_options(reflection_options, nested_resource)
+      def add_reflection_options(reflection_options, nested_resource, path)
         options = nested_resource.class.try(:cloneable_options)
         return reflection_options unless options
 
-        target_options = build_cloneable_options_tree(nested_resource)
+        target_options = build_cloneable_options_tree(nested_resource, path)
         reflection_options.deep_merge!(target_options)
       end
 
