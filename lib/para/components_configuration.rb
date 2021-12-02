@@ -34,16 +34,24 @@ module Para
     def section_for(identifier)
       if (section = sections_cache[identifier])
         section
-      elsif (section_id = sections_ids_hash[identifier])
-        sections_cache[identifier] = Para::ComponentSection.find(section_id)
+      else
+        sections_cache[identifier] = if (section_id = sections_ids_hash[identifier])
+          Para::ComponentSection.find(section_id)
+        else
+          Para::ComponentSection.find_by(identifier: identifier)
+        end
       end
     end
 
     def component_for(identifier)
       if (component = components_cache[identifier])
         component
-      elsif (component_id = components_ids_hash[identifier])
-        components_cache[identifier] = Para::Component::Base.find(component_id)
+      else
+        components_cache[identifier] = if (component_id = components_ids_hash[identifier])
+          Para::Component::Base.find(component_id)
+        else
+          Para::Component::Base.find_by(identifier: identifier)
+        end
       end
     end
 
