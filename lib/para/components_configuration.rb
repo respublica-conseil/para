@@ -76,6 +76,14 @@ module Para
       nil
     end
 
+    def sections_ids_hash
+      @sections_ids_hash ||= {}.with_indifferent_access
+    end
+
+    def components_ids_hash
+      @components_ids_hash ||= {}.with_indifferent_access
+    end
+
     private
 
     def build
@@ -91,14 +99,6 @@ module Para
           end
         end
       end
-    end
-
-    def sections_ids_hash
-      @sections_ids_hash ||= {}.with_indifferent_access
-    end
-
-    def components_ids_hash
-      @components_ids_hash ||= {}.with_indifferent_access
     end
 
     # Only store sections cache for the request duration to avoid expired

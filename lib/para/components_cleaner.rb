@@ -1,17 +1,21 @@
+# frozen_string_literal: true
+
 module Para
   class ComponentsCleaner
     # Hide class instanciation
-    def self.run; new.run; end
+    def self.run
+      new.run
+    end
 
     def run
       components.each do |component|
-        unless component == Para.components.component_for(component.identifier)
+        if component.id != Para.components.components_ids_hash[component.identifier]
           component.destroy
         end
       end
 
       Para::ComponentSection.find_each do |section|
-        unless Para.components.section_for(section.identifier)
+        unless Para.components.sections_ids_hash[section.identifier]
           section.destroy
         end
       end
