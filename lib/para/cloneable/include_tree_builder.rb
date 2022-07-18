@@ -59,9 +59,14 @@ module Para
       end
 
       def build
+        puts '-----------------------------'
+        puts 'BUILDING CLONEABLE OPTIONS TREE ...'
         options_tree = build_cloneable_options_tree(resource)
+        puts 'BUILT CLONEABLE OPTIONS TREE !'
         exceptions = extract_exceptions_from(options_tree)
         inclusions = clean_options_tree(options_tree)
+        puts 'FINAL OPTIONS : ', cloneable_options.merge(include: inclusions, except: exceptions).inspect
+        puts '-----------------------------'
         cloneable_options.merge(include: inclusions, except: exceptions)
       end
 
@@ -81,26 +86,13 @@ module Para
         # Iterate over the resource's cloneable options' :include array and recursively
         # add nested included resources to its own included resources.
         options = cloneable_options[:include].each_with_object({}) do |reflection_name, hash|
-          # This avoids cyclic dependencies issues by stopping nested association
-          # inclusions before the cycle starts.
-          #
-          # For example, if a post includes its author, and the author includes its posts,
-          # this would make the system fail with a stack level too deep error. Here this
-          # guard allows the inclusion to stop at :
-          #
-          #   { posts: { author: { posts: { author: {}}}}}
-          #
-          # Which ensures that, using the dictionary strategy of deep_cloneable, all
-          # posts' authors' posts will have their author mapped to an already cloned
-          # author when it comes to cloning the "author" 4th level of the include tree.
-          #
-          # This is not the most optimized solution, but works well enough as if the
-          # author's posts match previously cloned posts, they won't be cloned as they'll
-          # exist in the cloned resources dictionary.
-          next if path.length >= 4 &&
-                  path[-4] == path[-2] &&
-                  path[-2] == reflection_name &&
-                  path[-3] == path[-1]
+          reflection_path = [*path, reflection_name]
+          log_prefix = [resource.class.name, resource.id].join(':')
+          puts "#{log_prefix} : #{reflection_path}"
+
+          next if circular_inclusion?(reflection_path)
+
+          puts "#{log_prefix} : #{reflection_path} : OK"
 
           hash[reflection_name] = {}
 
@@ -116,14 +108,14 @@ module Para
               add_reflection_options(
                 reflection_options,
                 nested_resource,
-                [*path, reflection_name]
+                reflection_path
               )
             end
           else
             add_reflection_options(
               reflection_options,
               association_target,
-              [*path, reflection_name]
+              reflection_path
             )
           end
         end
@@ -190,6 +182,36 @@ module Para
         end
 
         deep_relations.empty? ? shallow_relations : shallow_relations + [deep_relations]
+      end
+
+      # This avoids cyclic dependencies issues by stopping nested association
+      # inclusions before the cycle starts.
+      #
+      # For example, if a post includes its author, and the author includes its posts,
+      # this would make the system fail with a stack level too deep error. Here this
+      # guard allows the inclusion to stop at :
+      #
+      #   { posts: { author: { posts: { author: { posts: {}}}}}}
+      #
+      # Which ensures that, using the dictionary strategy of deep_cloneable, all
+      # posts' authors' posts will have their author mapped to an already cloned
+      # author when it comes to cloning the "author" 4th level of the include tree.
+      #
+      # This is not the most optimized solution, but works well enough as if the
+      # author's posts match previously cloned posts, they won't be cloned as they'll
+      # exist in the cloned resources dictionary.
+      def circular_inclusion?(path, size = 2)
+        # Only check for dependencies that happens for the third times
+        return false if path.length <= size * 3
+
+        # The pattern is the last `size` items
+        pattern = path[-size..-1]
+
+        # Check if we can find 2 times the pattern before the pattern itself
+        return true if path[-(size * 2)..-(size + 1)] == pattern &&
+                       path[-(size * 3)..-((size * 2) + 1)] == pattern
+
+        circular_inclusion?(path, size + 1)
       end
     end
   end
