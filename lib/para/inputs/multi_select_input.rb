@@ -88,6 +88,8 @@ module Para
           join_resources.find do |res|
             res.send(attribute_field.through_relation_source_foreign_key) == resource.id
           end
+        else
+          resource
         end
 
         existing_resource.position
