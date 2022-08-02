@@ -2,6 +2,7 @@ module Para
   module Breadcrumbs
     module Controller
       extend ActiveSupport::Concern
+      include ActionController::Helpers
 
       included do
         class_attribute :_class_level_breadcrumbs
