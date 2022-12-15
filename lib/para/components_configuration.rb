@@ -5,6 +5,7 @@ module Para
 
     def draw(&block)
       return unless components_installed?
+
       Para::LogConfig.with_log_level(:fatal) do
         log_level = Rails.logger.level
         Rails.logger.level = :fatal
@@ -36,10 +37,10 @@ module Para
         section
       else
         sections_cache[identifier] = if (section_id = sections_ids_hash[identifier])
-          Para::ComponentSection.find(section_id)
-        else
-          Para::ComponentSection.find_by(identifier: identifier)
-        end
+                                       Para::ComponentSection.find(section_id)
+                                     else
+                                       Para::ComponentSection.find_by(identifier: identifier)
+                                     end
       end
     end
 
@@ -48,10 +49,10 @@ module Para
         component
       else
         components_cache[identifier] = if (component_id = components_ids_hash[identifier])
-          Para::Component::Base.find(component_id)
-        else
-          Para::Component::Base.find_by(identifier: identifier)
-        end
+                                         Para::Component::Base.find(component_id)
+                                       else
+                                         Para::Component::Base.find_by(identifier: identifier)
+                                       end
       end
     end
 
@@ -64,9 +65,7 @@ module Para
           else
             component.child_components.each do |child_component|
               # If one of the component children has the searched identifier return it
-              if child_component.identifier.to_s == identifier.to_s
-                return child_component
-              end
+              return child_component if child_component.identifier.to_s == identifier.to_s
             end
           end
         end
@@ -116,14 +115,14 @@ module Para
     end
 
     def components_installed?
-      tables_exist = %w(component/base component_section).all? do |name|
+      tables_exist = %w[component/base component_section].all? do |name|
         Para.const_get(name.camelize).table_exists?
       end
 
       unless tables_exist
         Rails.logger.warn(
           "Para migrations are not installed.\n" \
-          "Skipping components definition until next app reload."
+          'Skipping components definition until next app reload.'
         )
       end
 
@@ -140,7 +139,7 @@ module Para
     #
     def eager_load_components!
       $LOAD_PATH.each do |path|
-        next unless path.match(/\/components$/)
+        next unless path.match(%r{/components$})
 
         glob = File.join(path, '**', '*_component.rb')
 
@@ -158,8 +157,8 @@ module Para
         instance_eval(&block)
       end
 
-      def component(*args, &block)
-        components << Component.new(*args, &block)
+      def component(*args, **options, &block)
+        components << Component.new(*args, **options, &block)
       end
 
       def components
@@ -191,19 +190,15 @@ module Para
         instance_eval(&block) if block
 
         unless type
-          raise UndefinedComponentTypeError.new(
-            "Undefined Para component : #{ type_identifier }. " +
-            "Please ensure that your app or gems define this component type."
-          )
+          raise UndefinedComponentTypeError, "Undefined Para component : #{type_identifier}. " +
+                                             'Please ensure that your app or gems define this component type.'
         end
       end
 
       def component(*args, **child_options, &block)
         # Do not allow nesting components more than one level as the display of illimited
         # child nesting deepness is not implemented
-        if parent
-          raise ComponentTooDeepError, "Cannot nest components more than one level"
-        end
+        raise ComponentTooDeepError, 'Cannot nest components more than one level' if parent
 
         child_component_options = child_options.merge(parent: self)
         child_components << Component.new(*args, **child_component_options, &block)

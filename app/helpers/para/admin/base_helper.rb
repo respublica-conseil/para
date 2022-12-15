@@ -23,8 +23,8 @@ module Para
         end
       end
 
-      def find_relation_name_for(relation, partial, options = {})
-        return relation if partial_exists?(relation, partial, options)
+      def find_relation_name_for(relation, partial, **options)
+        return relation if partial_exists?(relation, partial, **options)
         return nil unless options[:relation_class]
 
         relation = options[:relation_class].ancestors.find do |ancestor|
@@ -32,7 +32,7 @@ module Para
           break if ancestor == ActiveRecord::Base
 
           ancestor_name = plural_file_path_for(ancestor.name)
-          partial_exists?(ancestor_name, partial, options)
+          partial_exists?(ancestor_name, partial, **options)
         end
 
         plural_file_path_for(relation) if relation

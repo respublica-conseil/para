@@ -1,4 +1,4 @@
-require_dependency "para/application_controller"
+require_dependency 'para/application_controller'
 
 module Para
   module Admin
@@ -37,7 +37,7 @@ module Para
       end
 
       def update
-        if resource.update_attributes(resource_params)
+        if resource.update(resource_params)
           flash_message(:success, resource)
           redirect_to after_form_submit_path
         else
@@ -109,7 +109,7 @@ module Para
       def resource
         @resource ||= begin
           self.class.ensure_resource_name_defined!
-          instance_variable_get(:"@#{ self.class.resource_name }")
+          instance_variable_get(:"@#{self.class.resource_name}")
         end
       end
 
@@ -161,10 +161,10 @@ module Para
 
       def self.ensure_resource_name_defined!
         unless resource_name.presence
-          raise "Resource not defined in your controller. " \
-                "You can define the resource of your controller with the " \
-                "`resource :resource_name` macro when subclassing " \
-                "Para::Admin::ResourcesController"
+          raise 'Resource not defined in your controller. ' \
+                'You can define the resource of your controller with the ' \
+                '`resource :resource_name` macro when subclassing ' \
+                'Para::Admin::ResourcesController'
         end
       end
 
@@ -185,8 +185,8 @@ module Para
 
       def current_anchor
         @current_anchor ||= if (current_anchor = params[:_current_anchor]).presence
-          current_anchor.gsub(/^\#/, '')
-        end
+                              current_anchor.gsub(/^\#/, '')
+                            end
       end
     end
   end

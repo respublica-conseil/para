@@ -19,7 +19,7 @@ module Para
       defaults << options.delete(:default) if options[:default]
       options[:default] = defaults
 
-      I18n.translate(defaults.shift, options)
+      ::I18n.translate(defaults.shift, **options)
     end
   end
 end

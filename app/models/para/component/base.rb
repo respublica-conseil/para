@@ -10,7 +10,7 @@ module Para
         Para::Component.registered_components[name] = component
       end
 
-      def self.configurable_on(key, options = {})
+      def self.configurable_on(key, _options = {})
         store_accessor(:configuration, key)
       end
 
@@ -22,8 +22,8 @@ module Para
       end
 
       has_many :child_components, -> { ordered },
-                                  class_name: 'Para::Component::Base',
-                                  foreign_key: 'parent_component_id'
+               class_name: 'Para::Component::Base',
+               foreign_key: 'parent_component_id'
 
       validates :identifier, :type, presence: true
 
@@ -33,14 +33,14 @@ module Para
 
       def name
         read_attribute(:name) || ::I18n.t(
-          "components.component.#{ identifier }",
+          "components.component.#{identifier}",
           default: identifier.humanize
         )
       end
 
       def main_navigation_name
         ::I18n.t(
-          "components.main_navigation.#{ identifier }",
+          "components.main_navigation.#{identifier}",
           default: name
         )
       end
@@ -62,7 +62,7 @@ module Para
       end
 
       def default_form_actions
-        [:submit, :submit_and_edit, :submit_and_add_another, :cancel]
+        %i[submit submit_and_edit submit_and_add_another cancel]
       end
 
       def to_param

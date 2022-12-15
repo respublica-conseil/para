@@ -44,19 +44,20 @@ module Para
         Para::ActiveStorageDownloader.new(original_attachment).download_blob_to_tempfile do |tempfile|
           attachment_target = clone.send(association_name)
 
-          attachment_target.attach({
-            io: tempfile,
+          cloned_blob = ActiveStorage::Blob.create_and_upload!(
+            io: tempfile, 
             filename: original_blob.filename,
             content_type: original_blob.content_type
-          })
+          )
 
+          attachment_target.attach(cloned_blob)
           cloned_attachment = find_cloned_attachment(attachment_target, original_blob)
 
           # Store the cloned attachment and blob into the deep_cloneable dictionary used
           # by the `deep_clone` method to ensure that, if needed during the cloning
           # operation, they won't be cloned once more and are accessible for processing
           store_cloned(original_attachment, cloned_attachment)
-          store_cloned(original_blob, cloned_attachment.blob)
+          store_cloned(original_blob, cloned_blob)
         end
       end
 

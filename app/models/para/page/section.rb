@@ -14,7 +14,6 @@ module Para
       end
 
       class << self
-
         # This method is a shortcut to create a has_one through relation
         def section_resource(*args, &block)
           _ensure_section_resource_relation
@@ -47,10 +46,10 @@ module Para
           return if @section_resources_already_initialized
 
           has_many :section_resources, -> { ordered },
-                                       foreign_key: 'section_id',
-                                       class_name: '::Para::Page::SectionResource',
-                                       inverse_of: :section,
-                                       dependent: :destroy
+                   foreign_key: 'section_id',
+                   class_name: '::Para::Page::SectionResource',
+                   inverse_of: :section,
+                   dependent: :destroy
 
           accepts_nested_attributes_for :section_resources, allow_destroy: true
 
@@ -74,7 +73,7 @@ module Para
             source_type: target_class_name
           )
 
-          has_one(*args, options, &block)
+          has_one(*args, **options, &block)
         end
 
         def _create_section_resource_has_many_relation_for(*args, &block)
@@ -94,7 +93,7 @@ module Para
             source_type: target_class_name
           )
 
-          has_many(*args, options, &block)
+          has_many(*args, **options, &block)
         end
       end
     end

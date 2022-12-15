@@ -11,10 +11,10 @@ module Para
         def attachment_path
           return unless attachment.attached?
 
-          attachment.service_url
+          attachment.url
         end
 
-        alias_method :attachment_url, :attachment_path
+        alias attachment_url attachment_path
 
         def attachment_ext
           ::File.extname(attachment.filename.to_s) if attachment.attached?

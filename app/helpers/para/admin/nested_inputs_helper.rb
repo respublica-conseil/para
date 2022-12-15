@@ -9,7 +9,7 @@ module Para
           association_name = parent_resource.association(attribute_name).options[:inverse_of]
           return resource unless association_name
 
-          resource.association(association_name).replace(parent_resource)
+          resource.association(association_name).send(:replace, parent_resource)
         end
       end
     end

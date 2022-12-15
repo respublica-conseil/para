@@ -17,11 +17,11 @@ module Para
           # Build association without trying to save the new record
           resource = case association
           when ActiveRecord::Associations::HasOneThroughAssociation
-            association.replace(model.new)
+            association.send(:replace, model.new)
           when ActiveRecord::Associations::HasOneAssociation
-            association.replace(model.new, false)
+            association.send(:replace, model.new, false)
           else
-            association.replace(model.new)
+            association.send(:replace, model.new)
           end
         end
 
