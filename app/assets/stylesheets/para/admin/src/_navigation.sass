@@ -109,7 +109,7 @@
 .navbar-default
   border: none
   padding-right: 22px
-  .nav > li >   
+  .nav > li >
     button
       -webkit-appearance: none
       border: none
@@ -119,7 +119,7 @@
       text-align: center
       margin: 14px 3px
       color: inherit
-      +border-radius($border-radius-small)
+      border-radius: $border-radius-small
       i
         line-height: 14px
       &.btn-home
@@ -143,8 +143,6 @@
 //** Dark theme override
 //***********************
 .dark-theme.navmenu-default
-  .navmenu-brand
-    +background(linear-gradient(to top right, $brand-primary, $brand-info))
   .navmenu-nav
     background-color: $navbar-default-bg
     > li > a
@@ -167,7 +165,7 @@
       &:focus
         background-color: $navbar-default-bg
     &.active
-      a, button  
+      a, button
         background-color: lighten($navbar-default-bg, 10%)
         border-color: $brand-primary
         color: white

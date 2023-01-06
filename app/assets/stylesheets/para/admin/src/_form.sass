@@ -9,13 +9,13 @@
 =outline-input-form
   padding: 6px 0px
   -webkit-appearance: none
-  +box-shadow(none)
-  +border-radius(0)
+  box-shadow: none
+  border-radius: 0
   border: none
   border-bottom: 1px solid $input-border
   +default-transition
   &:focus, &.focus
-    +box-shadow(0px 1px 0px $input-border-focus)
+    box-shadow: 0px 1px 0px $input-border-focus
     border-color: $input-border-focus
     +default-transition
 
@@ -46,12 +46,12 @@ legend
   font-size: 0.85em
   margin-bottom: 8px
   text-transform: uppercase
-  +transition(color ease-in-out 0.15s)
+  transition: color ease-in-out 0.15s
 
 .form-group.focused
   .control-label
     color: $brand-primary
-    +transition(color ease-in-out 0.15s)
+    transition: color ease-in-out 0.15s
 
 //== Inputs
 //
@@ -75,7 +75,6 @@ legend
 .nested-input-title
   &.has-error
     color: $brand-danger
-
 
 //== Inputs outline
 //
@@ -126,7 +125,7 @@ legend
   .redactor-toolbar
     border: none
     background-color: $gray-lighter
-    +border-radius(0)
+    border-radius: 0
 
   //** Selectize
   .selectize-input,
@@ -154,7 +153,7 @@ legend
       &:active,
       &.active,
       &:active:focus
-        +box-shadow(none)
+        box-shadow: none
 
   // Datepicker
   .datetimepicker-trigger.btn-default
@@ -167,7 +166,7 @@ legend
     &:active,
     &.active,
     &:active:focus
-      +box-shadow(none)
+      box-shadow: none
 
 //== Color picker
 //
@@ -192,16 +191,20 @@ legend
   +filter-style
   .form-control
     &:focus
-      +box-shadow(none)
+      box-shadow: none
   .form-control,
   .input-group-btn
     background-color: transparent
     border: none
-    +border-left-radius(20px)
+    border-top-left-radius: 20px
+    border-bottom-left-radius: 20px
   .input-group-btn
     overflow: hidden
-    +border-left-radius(0)
-    +border-right-radius(20px)
+    border-left-radius: 0
+    border-top-left-radius: 0
+    border-bottom-left-radius: 0
+    border-top-top-radius: 20px
+    border-bottom-top-radius: 20px
   .btn
     background-color: transparent
     color: $gray
@@ -215,7 +218,7 @@ legend
 .form-fixed-actions
   margin-bottom: 100px
   .form-actions
-    +border-radius(2px)
+    border-radius: 2px
     position: fixed
     bottom: 0px
     right: 50px
@@ -268,7 +271,6 @@ legend
       &.has-error
         color: $brand-danger
         border-bottom-color: $brand-danger
-
 
 //== Input with error
 //

@@ -63,8 +63,8 @@
   border: none
   width: 100%
   background-color: $gray-lighter
-  +box-shadow(0px 1px 3px 0px rgba(32,36,45, .12) inset, 0px 1px 2px 0px rgba(32,36,45, .24) inset)
-  +border-radius(20px)
+  box-shadow: 0px 1px 3px 0px rgba(32,36,45, .12) inset, 0px 1px 2px 0px rgba(32,36,45, .24) inset
+  border-radius: 20px
 
 //** Sass Mixin to target child of elements
 =first-child()
@@ -73,31 +73,31 @@
 
 //** Default theme transition & shadow
 =default-transition($time: 0.3s)
-  +transition(all $time cubic-bezier(.25,.8,.25,1))
+  transition: all $time cubic-bezier(.25,.8,.25,1)
 
 =material-box-shadow($depth: 1)
   @if $depth == 1
-    +box-shadow(0 1px 3px rgba(32,36,45,0.12), 0 1px 2px rgba(32,36,45,0.24))
+    box-shadow: 0 1px 3px rgba(32,36,45,0.12), 0 1px 2px rgba(32,36,45,0.24)
   @if $depth == 2
-    +box-shadow(0 3px 6px rgba(32,36,45,0.16), 0 3px 6px rgba(32,36,45,0.23))
+    box-shadow: 0 3px 6px rgba(32,36,45,0.16), 0 3px 6px rgba(32,36,45,0.23)
   @if $depth == 3
-    +box-shadow(0 10px 20px rgba(32,36,45,0.19), 0 6px 6px rgba(32,36,45,0.23))
+    box-shadow: 0 10px 20px rgba(32,36,45,0.19), 0 6px 6px rgba(32,36,45,0.23)
   @if $depth == 4
-    +box-shadow(0 14px 28px rgba(32,36,45,0.25), 0 10px 10px rgba(32,36,45,0.22))
+    box-shadow: 0 14px 28px rgba(32,36,45,0.25), 0 10px 10px rgba(32,36,45,0.22)
   @if $depth == 5
-    +box-shadow(0 19px 38px rgba(32,36,45,0.30), 0 15px 12px rgba(32,36,45,0.22))
+    box-shadow: 0 19px 38px rgba(32,36,45,0.30), 0 15px 12px rgba(32,36,45,0.22)
 
 =material-box-shadow-soft($depth: 1)
   @if $depth == 1
-    +box-shadow(0 1px 3px rgba(32,36,45,0.03), 0 1px 2px rgba(32,36,45,0.06))
+    box-shadow: 0 1px 3px rgba(32,36,45,0.03), 0 1px 2px rgba(32,36,45,0.06)
   @if $depth == 2
-    +box-shadow(0 3px 6px rgba(32,36,45,0.04), 0 3px 6px rgba(32,36,45,0.06))
+    box-shadow: 0 3px 6px rgba(32,36,45,0.04), 0 3px 6px rgba(32,36,45,0.06)
   @if $depth == 3
-    +box-shadow(0 10px 20px rgba(32,36,45,0.05), 0 6px 6px rgba(32,36,45,0.06))
+    box-shadow: 0 10px 20px rgba(32,36,45,0.05), 0 6px 6px rgba(32,36,45,0.06)
   @if $depth == 4
-    +box-shadow(0 14px 28px rgba(32,36,45,0.06), 0 10px 10px rgba(32,36,45,0.06))
+    box-shadow: 0 14px 28px rgba(32,36,45,0.06), 0 10px 10px rgba(32,36,45,0.06)
   @if $depth == 5
-    +box-shadow(0 19px 38px rgba(32,36,45,0.08), 0 15px 12px rgba(32,36,45,0.06))
+    box-shadow: 0 19px 38px rgba(32,36,45,0.08), 0 15px 12px rgba(32,36,45,0.06)
 //** Grab cursor Mixin
 
 =grab-cursor

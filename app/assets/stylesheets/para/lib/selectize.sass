@@ -1,7 +1,6 @@
 //
 // Selectize
 // --------------------------------------------------
-@import "compass/css3/user-interface"
 @import "para/admin/src/variables"
 @import "para/admin/src/mixins"
 
@@ -27,7 +26,7 @@
         border: none
         margin-top: -6px
         color: $gray
-    
+
 //** Dropdown
 
 //** Active system
@@ -37,14 +36,14 @@
 .selectize-input,
 .selectize-input.full
   border-color: $input-border
-  +border-radius($input-border-radius)
+  border-radius: $input-border-radius
   &.focus
     border-color: $input-border-focus
   &.dropdown-active
-    +border-radius($input-border-radius)
+    border-radius: $input-border-radius
     &:after
       border: none
-      +transform(rotate(180deg))
+      transform: rotate(180deg)
       margin-top: -6px
 
 .selectize-control.single .selectize-input
@@ -67,7 +66,7 @@
   background: $input-bg
 
 .selectize-input.not-full input
-  +input-placeholder
+  ::placeholder
     color: $input-color-placeholder
     font-size: 0.9em
 
@@ -84,7 +83,7 @@
 
 .selectize-control.multi .selectize-input > div
   background-color: $gray-light
-  +border-radius(2px)
+  border-radius: 2px
   color: $text-color
   &:hover,
   &:focus,

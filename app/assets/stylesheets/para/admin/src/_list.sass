@@ -15,7 +15,7 @@
     margin-right: 0
 
   li
-    +inline-block
+    display: inline-block
     padding: 0 5px
 
 .flextable
@@ -65,23 +65,25 @@
     +filter-style
     .form-control
       &:focus
-        +box-shadow(none)
+        box-shadow: none
     .form-control,
     .input-group-btn
       background-color: transparent
       border: none
-      +border-left-radius(20px)
+      border-top-left-radius: 20px
+      border-bottom-left-radius: 20px
     .input-group-btn
       overflow: hidden
-      +border-left-radius(0)
-      +border-right-radius(20px)
+      border-top-left-radius: 0
+      border-bottom-left-radius: 0
+      border-top-top-radius: 20px
+      border-bottom-top-radius: 20px
     .btn
       background-color: transparent
       color: $gray
       border-color: transparent
       &:hover
         color: $gray-dark
-
 
 .page-entries-info
   font-weight: 300
