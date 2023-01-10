@@ -17,8 +17,15 @@ class Para.NestedManyField
       onUpdate: $.proxy(@handleOrderingUpdated, this)
 
   handleOrderingUpdated: ->
-    @$fieldsList.find('.form-fields:visible').each (i, el) ->
-      $(el).find('.resource-position-field').val(i)
+    formFields = []
+
+    @$fieldsList.find('.form-fields:visible').each (_i, el) ->
+      isNestedField = $parent.find(el).length for $parent in formFields
+      return if isNestedField
+
+      $el = $(el)
+      $el.find('.resource-position-field:eq(0)').val(formFields.length)
+      formFields.push($el)
 
   initializeCocoon: ->
     @$fieldsList.on 'cocoon:after-insert', @stoppingPropagation(@afterInsertField)
@@ -29,7 +36,6 @@ class Para.NestedManyField
     (e, args...) =>
       e.stopPropagation()
       callback(e, args...)
-
 
   afterInsertField: (e, $element) =>
     if ($collapsible = $element.find('[data-open-on-insert="true"]')).length
