@@ -1,14 +1,14 @@
 module Para
   module Inputs
     class NestedBaseInput < SimpleForm::Inputs::Base
-      GLOBAL_NESTED_FIELD_KEY = "para.nested_field.parent"
+      GLOBAL_NESTED_FIELD_KEY = 'para.nested_field.parent'
 
       private
 
       def dom_identifier
         @dom_identifier ||= begin
           name = attribute_name
-          id = @builder.object.id || "_new_#{ parent_nested_field&.attribute_name }_"
+          id = @builder.object.id || "_new_#{parent_nested_field&.attribute_name}_"
           time = (Time.now.to_f * 1000).to_i
           random = (rand * 1000).to_i
           [name, id, time, random].join('-')
@@ -22,7 +22,7 @@ module Para
       def subclasses
         options.fetch(:subclasses, [])
       end
-      
+
       def add_button_label
         options.fetch(:add_button_label) { I18n.t('para.form.nested.add') }
       end
@@ -39,13 +39,13 @@ module Para
         @parent_nested_field = RequestStore.store[GLOBAL_NESTED_FIELD_KEY]
         RequestStore.store[GLOBAL_NESTED_FIELD_KEY] = self
 
-        block.call.tap do
-          RequestStore.store[GLOBAL_NESTED_FIELD_KEY] = @parent_nested_field
-        end
+        block.call
+      ensure
+        RequestStore.store[GLOBAL_NESTED_FIELD_KEY] = @parent_nested_field
       end
 
-      def parent_nested_field
-        @parent_nested_field || RequestStore.store[GLOBAL_NESTED_FIELD_KEY]
+      def parent_nested_field(fallback_to_self: true)
+        @parent_nested_field || (RequestStore.store[GLOBAL_NESTED_FIELD_KEY] if fallback_to_self)
       end
     end
   end

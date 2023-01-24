@@ -4,7 +4,7 @@ module Para
       attr_reader :resource
 
       def input(_wrapper_options = nil)
-        input_html_options[:class] << "nested-many"
+        input_html_options[:class] << 'nested-many'
 
         orderable = options.fetch(:orderable, model.orderable?)
         add_button = options.fetch(:add_button, true)
@@ -40,6 +40,15 @@ module Para
         end
       end
 
+      protected
+
+      def render_partial?
+        options[:render_partial] ||
+          object.errors.any? ||
+          (object.persisted? && uncollapsed?) ||
+          parent_nested_field(fallback_to_self: false)&.render_partial?
+      end
+
       private
 
       def parent_model
@@ -56,10 +65,6 @@ module Para
 
       def uncollapsed?
         inset? && Para.config.uncollapse_inset_nested_fields
-      end
-
-      def render_partial?
-        options[:render_partial] || object.errors.any? || (object.persisted? && uncollapsed?)
       end
 
       def remote_partial_params
