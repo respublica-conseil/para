@@ -17,7 +17,7 @@ module Para
 
         attachment_reflections = original.class.reflections.select do |name, reflection|
           name.to_s.match(ATTACHMENTS_RELATION_REGEX) &&
-          reflection.options[:class_name] == "ActiveStorage::Attachment"
+            reflection.options[:class_name] == 'ActiveStorage::Attachment'
         end
 
         attachment_reflections.each do |name, reflection|
@@ -26,16 +26,27 @@ module Para
 
           if reflection.collection?
             association_target.each do |attachment|
-              clone_attachment(name, attachment)
+              clone_attachment_if_needed(name, attachment)
             end
           else
-            clone_attachment(name, association_target)
+            clone_attachment_if_needed(name, association_target)
           end
         end
       end
 
+      def clone_attachment_if_needed(name, attachment)
+        return if attachment.nil?
+
+        store_key = store_key_for(attachment)
+
+        # If the attachment has already been cloned, we don't need to clone it again
+        return if dictionary[store_key]&.key?(attachment)
+
+        clone_attachment(name, attachment)
+      end
+
       def clone_attachment(name, original_attachment)
-        association_name = name.gsub(ATTACHMENTS_RELATION_REGEX, "")
+        association_name = name.gsub(ATTACHMENTS_RELATION_REGEX, '')
         original_blob = original_attachment.blob
 
         # Handle missing file in storage service by bypassing the attachment cloning
@@ -45,7 +56,7 @@ module Para
           attachment_target = clone.send(association_name)
 
           cloned_blob = ActiveStorage::Blob.create_and_upload!(
-            io: tempfile, 
+            io: tempfile,
             filename: original_blob.filename,
             content_type: original_blob.content_type
           )
@@ -67,10 +78,10 @@ module Para
       # doesn't always return the same, so for now we still handle the Rails 5.2 case.
       def find_cloned_attachment(attachment_target, original_blob)
         attachments = if attachment_target.attachments.any?
-          attachment_target.attachments
-        else
-          [attachment_target.attachment]
-        end
+                        attachment_target.attachments
+                      else
+                        [attachment_target.attachment]
+                      end
 
         attachment = attachments.find do |att|
           att.blob.checksum == original_blob.checksum
@@ -81,10 +92,14 @@ module Para
       # simulates what the deep_cloneable gem does when it clones a resource
       #
       def store_cloned(source, clone)
-        store_key = source.class.name.tableize.to_sym
+        store_key = store_key_for(source)
 
         dictionary[store_key] ||= {}
         dictionary[store_key][source] = clone
+      end
+
+      def store_key_for(attachment)
+        attachment.class.name.tableize.to_sym
       end
     end
   end
