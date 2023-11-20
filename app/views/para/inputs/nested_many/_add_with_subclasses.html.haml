@@ -1,9 +1,15 @@
-.add-button.nested-many-inset-add-button.dropdown
-  %button.btn.btn-shadow.dropdown-toggle{ class: add_button_class, type: 'button', data: { toggle: 'dropdown' } }
+- if subclasses.one?
+  - submodel = subclasses.first
+
+  = link_to_add_association form, attribute_name, wrap_object: proc { with_inverse_association_for(submodel.new, attribute_name, form.object) }, partial: find_partial_for(model, 'nested_many/container', partial_dir: 'inputs'), form_name: 'form', class: "btn btn-shadow add-button nested-many-inset-add-button #{add_button_class}", data: { :'association-insertion-node' => "##{ dom_identifier }", :'association-insertion-method' => 'append' }, render_options: { nested_attribute_name: attribute_name, orderable: orderable, locals: { model: submodel, nested_locals: nested_locals, inset: inset, uncollapsed: uncollapsed, render_partial: render_partial, remote_partial_params: remote_partial_params } } do
     = add_button_label
-    %i.fa.fa-angle-down
-  %ul.dropdown-menu
-    - subclasses.each do |submodel|
-      %li
-        = link_to_add_association form, attribute_name, wrap_object: proc { with_inverse_association_for(submodel.new, attribute_name, form.object) }, partial: find_partial_for(submodel, 'nested_many/container', partial_dir: 'inputs'), form_name: 'form', class: 'dropdown-link', data: { :'association-insertion-node' => "##{ dom_identifier }", :'association-insertion-method' => 'append' }, render_options: { nested_attribute_name: attribute_name, orderable: orderable, locals: { model: submodel, nested_locals: nested_locals, inset: inset, uncollapsed: uncollapsed, render_partial: render_partial, remote_partial_params: remote_partial_params } } do
-          = submodel.model_name.human
+- else
+  .add-button.nested-many-inset-add-button.dropdown
+    %button.btn.btn-shadow.dropdown-toggle{ class: add_button_class, type: 'button', data: { toggle: 'dropdown' } }
+      = add_button_label
+      %i.fa.fa-angle-down
+    %ul.dropdown-menu
+      - subclasses.each do |submodel|
+        %li
+          = link_to_add_association form, attribute_name, wrap_object: proc { with_inverse_association_for(submodel.new, attribute_name, form.object) }, partial: find_partial_for(submodel, 'nested_many/container', partial_dir: 'inputs'), form_name: 'form', class: 'dropdown-link', data: { :'association-insertion-node' => "##{ dom_identifier }", :'association-insertion-method' => 'append' }, render_options: { nested_attribute_name: attribute_name, orderable: orderable, locals: { model: submodel, nested_locals: nested_locals, inset: inset, uncollapsed: uncollapsed, render_partial: render_partial, remote_partial_params: remote_partial_params } } do
+            = submodel.model_name.human
