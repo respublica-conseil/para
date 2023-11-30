@@ -1,0 +1,26 @@
+//
+// Nested one
+// --------------------------------------------------
+
+//== Main style
+//
+//## Label have to be like a legend if is the nested_one
+
+.form-group.nested_one {
+  label.control-label.nested_one {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $gray-light;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}
+.tab-pane {
+  > .form-group.nested_one {
+    label.control-label.nested_one {
+      margin-top: 0;
+    }
+  }
+}

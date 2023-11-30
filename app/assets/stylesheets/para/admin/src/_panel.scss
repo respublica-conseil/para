@@ -1,0 +1,61 @@
+//
+// Panel
+// --------------------------------------------------
+
+//== Main style
+//
+//## Just an override of bootstrap
+
+.panel {
+  border: none;
+  @include material-box-shadow-soft(2);
+
+  //** Panel with collapse element
+  .collapsed {
+    .fa-angle-up {
+      @include rotate(180deg);
+    }
+  //** Panel is orderable
+  }
+  .order-anchor {
+    float: left;
+    margin-right: 10px;
+    line-height: 30px;
+    margin-left: -20px;
+  }
+}
+.panel-heading {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 2px;
+  @include clearfix;
+  //** Do not destroy panel heading if image is inside
+  img {
+    max-width: 250px;
+    max-height: 250px;
+  }
+  //** Disable link underline if is in panel heading
+  a {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
+.panel-title {
+  font-size: $font-size-base;
+  font-weight: 400;
+  float: left;
+  line-height: 30px;
+  margin-right: 30px;
+  max-width: calc(100% - 180px);
+}
+.panel-btns {
+  float: right;
+  //** If panel-btns is a list
+  list-style: none;
+  margin-top: 4px;
+  li {
+    padding-left: 0;
+  }
+}

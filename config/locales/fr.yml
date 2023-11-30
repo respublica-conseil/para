@@ -56,6 +56,7 @@ fr:
           title: "Créer un(e) %{model}"
         edit:
           title: "Modification d'un(e) %{model}"
+        saving: "Enregistrement en cours ..."
       nested:
         name: "Nom"
         add: "Ajouter"

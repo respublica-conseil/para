@@ -10,13 +10,13 @@ module Para
         form.settings_attributes = settings_params[:settings_attributes]
         form.save
         flash_message(:success, form)
-        redirect_to admin_settings_path(@component)
+        redirect_to admin_settings_path(@component), status: 303
       end
 
       private
 
       def settings_params
-        params.require(:resource).permit(settings_attributes: [:key, :_type, :value])
+        params.require(:resource).permit(settings_attributes: %i[key _type value])
       end
     end
   end

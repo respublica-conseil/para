@@ -25,10 +25,10 @@ module Para
 
         if resource.save
           flash_message(:success, resource)
-          redirect_to after_form_submit_path
+          redirect_to after_form_submit_path, status: 303
         else
           flash_message(:error, resource)
-          render 'new'
+          render 'new', status: 422
         end
       end
 
@@ -39,17 +39,17 @@ module Para
       def update
         if resource.update(resource_params)
           flash_message(:success, resource)
-          redirect_to after_form_submit_path
+          redirect_to after_form_submit_path, status: 303
         else
           flash_message(:error, resource)
-          render 'edit'
+          render 'edit', status: 422
         end
       end
 
       def destroy
         resource.destroy
         flash_message(:success, resource)
-        redirect_to after_form_submit_path
+        redirect_to after_form_submit_path, status: 303
       end
 
       def order
@@ -86,7 +86,12 @@ module Para
           host_redirect_params.merge(
             action: 'edit',
             id: resource.id,
-            anchor: current_anchor
+            # The `anchor` doesn't work with javascript's `fetch` async requests so we
+            # can't redirect an XHR request to an anchor, we need to pass it as an
+            # explicit param.
+            # See : https://github.com/hotwired/turbo/issues/211
+            _current_anchor: params[:_current_anchor].presence,
+            return_to: params[:return_to].presence
           )
         elsif params[:_save_and_add_another]
           host_redirect_params.merge(
@@ -160,12 +165,12 @@ module Para
       end
 
       def self.ensure_resource_name_defined!
-        unless resource_name.presence
-          raise 'Resource not defined in your controller. ' \
-                'You can define the resource of your controller with the ' \
-                '`resource :resource_name` macro when subclassing ' \
-                'Para::Admin::ResourcesController'
-        end
+        return if resource_name.presence
+
+        raise 'Resource not defined in your controller. ' \
+              'You can define the resource of your controller with the ' \
+              '`resource :resource_name` macro when subclassing ' \
+              'Para::Admin::ResourcesController'
       end
 
       def resources_data
@@ -181,12 +186,6 @@ module Para
             hash[resource.id.to_s] = resource
           end
         end
-      end
-
-      def current_anchor
-        @current_anchor ||= if (current_anchor = params[:_current_anchor]).presence
-                              current_anchor.gsub(/^\#/, '')
-                            end
       end
     end
   end

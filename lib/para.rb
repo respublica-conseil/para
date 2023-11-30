@@ -19,14 +19,10 @@ require 'friendly_id'
 require 'deep_cloneable'
 require 'closure_tree'
 
-require 'jquery-rails'
-require 'turbolinks'
+require 'turbo-rails'
 require 'sass-rails'
-require 'selectize-rails'
 require 'bootstrap-sass'
 require 'font-awesome-rails'
-
-require 'vertebra'
 
 require 'rails/routing_mapper'
 require 'rails/relation_length_validator'
@@ -49,7 +45,6 @@ module Para
     autoload :Breadcrumbs
     autoload :Cache
     autoload :Logging
-    autoload :IframeTransport
     autoload :ActiveStorageDownloader
   end
 

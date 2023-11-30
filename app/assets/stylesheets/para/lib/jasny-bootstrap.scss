@@ -1,0 +1,111 @@
+//
+// Jasny Bootstrap
+// --------------------------------------------------
+
+//== Variables
+//
+//##
+
+@import "para/admin/src/variables";
+@import "para/admin/src/mixins";
+
+//== Jasny Bootstrap
+//
+//## Fileupload overrides
+
+.fileinput {
+  margin-bottom: 0;
+  display: block;
+  &.fileinput-new {
+    .fileinput-placeholder {
+      display: block;
+    }
+  }
+  &.fileinput-exists {
+    .fileinput-placeholder {
+      display: none;
+    }
+  }
+  .uneditable-input {
+    background-color: $input-bg-disabled;
+  }
+  //** Override btn color for feeting to the design
+  .btn-file {
+    color: #fff;
+    background-color: $btn-primary-bg;
+    border-color: $btn-primary-border;
+    @include material-box-shadow-soft(1);
+    @include default-transition;
+    &:hover,
+    &:focus,
+    &:active,
+    &:active:hover,
+    &:active:focus,
+    &.active {
+      background-color: $btn-primary-bg !important;
+      border-color: $btn-primary-border !important;
+      color: #fff;
+    }
+    &:active,
+    &.active {
+      @include material-box-shadow-soft(2);
+    }
+  }
+  .btn-danger {
+    @include material-box-shadow-soft(1);
+    @include default-transition;
+    &:hover,
+    &:focus,
+    &:active,
+    &:active:hover,
+    &:active:focus,
+    &.active {
+      background-color: $btn-danger-bg !important;
+      border-color: $btn-danger-border !important;
+      color: #fff;
+    }
+    &:active,
+    &.active {
+      @include material-box-shadow-soft(2);
+    }
+    &.fileinput-exists {
+      margin-left: 10px;
+    }
+  }
+}
+.fileinput-new.input-group .btn-file,
+.fileinput.input-group .btn-file {
+  border-top-right-radius: $border-radius-base;
+  border-bottom-right-radius: $border-radius-base;
+  border-color: $input-border;
+}
+.fileinput.input-group .input-group-btn {
+  .form-control.file {
+    padding: 0 !important;
+    position: absolute;
+  }
+}
+.fileinput {
+  .input-group-btn > .btn:hover,
+  .input-group-btn > .btn:focus,
+  .input-group-btn > .btn:active {
+    z-index: 0;
+  }
+}
+.fileinput-preview.thumbnail {
+  width: auto;
+  height: auto;
+  min-width: 80px;
+  min-height: 80px;
+  max-height: 500px;
+  margin-bottom: 0;
+  margin-top: 10px;
+  background-color: $gray-light;
+  border: none;
+
+  .empty-thumbnail {
+    width: 72px;
+    height: 72px;
+    background-color: $gray-light;
+  }
+}

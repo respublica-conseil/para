@@ -1,0 +1,136 @@
+//
+// Selectize
+// --------------------------------------------------
+@import "para/admin/src/variables";
+@import "para/admin/src/mixins";
+
+@import "@selectize/selectize/dist/css/selectize";
+@import "@selectize/selectize/dist/css/selectize.bootstrap3";
+
+//== Selectize
+//
+//## Override default style
+
+//** Debug ghost margin bottom
+.selectize-control,
+.selectize-control.form-control {
+  line-height: 0;
+}
+//** Single
+.selectize-control {
+  &.single {
+    .selectize-input {
+      padding-right: 30px;
+      //** Caret by para
+      &:after {
+        right: 12px;
+        @include fontAwesome;
+        content: "\f107";
+        border: none;
+        margin-top: -6px;
+        color: $gray;
+      }
+//** Dropdown
+
+//** Active system
+
+//** Dropdown active
+    }
+  }
+}
+.selectize-input,
+.selectize-input.full {
+  border-color: $input-border;
+  border-radius: $input-border-radius;
+
+  &.focus {
+    border-color: $input-border-focus;
+  }
+
+  &.dropdown-active {
+    border-radius: $input-border-radius;
+    &:after {
+      border: none;
+      transform: rotate(180deg);
+      margin-top: -6px;
+    }
+  }
+
+  input {
+    text-overflow: ellipsis;
+    width: 100% !important;
+  }
+}
+.selectize-control.single .selectize-input {
+  &.dropdown-active {
+    &:after {
+      margin-top: -6px;
+    }
+  }
+}
+.selectize-dropdown,
+.selectize-input,
+.selectize-input input {
+  color: $input-color;
+}
+.selectize-input,
+.selectize-control.single .selectize-input.input-active {
+  background: $input-bg;
+}
+.selectize-input,
+.selectize-input.full,
+.selectize-input.not-full {
+  background: $input-bg;
+}
+.selectize-input.not-full input {
+  ::placeholder {
+    color: $input-color-placeholder;
+    font-size: 0.9em;
+  }
+}
+.selectize-dropdown {
+  [data-selectable] {
+    background-color: $dropdown-bg;
+    color: $dropdown-link-color;
+  }
+  .active {
+    background-color: $gray-lighter;
+    color: $dropdown-link-hover-color;
+  }
+  .selected {
+    background-color: $dropdown-link-active-bg;
+    color: $dropdown-link-active-color;
+  }
+}
+.selectize-control.multi .selectize-input > div {
+  background-color: $gray-light;
+  border-radius: 2px;
+  color: $text-color;
+  &:hover,
+  &:focus,
+  &.active {
+    background-color: $navbar-default-bg;
+    color: $gray-lighter;
+  }
+  .remove {
+    &:hover {
+      background-color: $blue-darker;
+    }
+//== Selectize Dropdown
+//
+//## Override z-index because of Fixed actions container
+  }
+}
+.selectize-dropdown,
+.selectize-dropdown.form-control {
+  @include material-box-shadow-soft(2);
+  border: none;
+  margin: 8px 0 0 0;
+  z-index: $zindex-navbar-fixed + 20;
+}
+.selectize-dropdown {
+  [data-selectable] {
+    font-weight: 300;
+    padding: 8px 12px;
+  }
+}

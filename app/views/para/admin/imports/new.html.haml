@@ -1,14 +1,15 @@
-= modal id: "component-import-#{ @importer.model_name.route_key }" do |modal|
-  = modal.header do
-    = @importer.model_name.human
+= turbo_frame_tag "para_admin_modal" do
+  = modal id: "component-import-#{ @importer.model_name.route_key }" do |modal|
+    = modal.header do
+      = @importer.model_name.human
 
-  = simple_form_for @file, as: :file, url: @component.path(namespace: :imports, importer: @importer.name), remote: true do |form|
-    = modal.body do
-      %p= t('para.import.help_text')
+    = simple_form_for @file, as: :file, url: @component.path(namespace: :imports, importer: @importer.name), remote: true do |form|
+      = modal.body do
+        %p= t('para.import.help_text')
 
-      = form.input :attachment, label: false, placeholder: t('para.import.placeholder')
+        = form.input :attachment, label: false, placeholder: t('para.import.placeholder')
 
-      = modal.footer do
-        %button.btn.btn-primary.btn-shadow{ type: 'submit' }
-          %i.fa.fa-upload.fa-fw
-          = t('para.import.name')
+        = modal.footer do
+          %button.btn.btn-primary.btn-shadow{ type: 'submit' }
+            %i.fa.fa-upload.fa-fw
+            = t('para.import.name')

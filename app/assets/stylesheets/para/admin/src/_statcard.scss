@@ -1,0 +1,46 @@
+//
+// Statcard
+// --------------------------------------------------
+
+//== Main style
+//
+//##
+
+.statcard {
+  position: relative;
+  display: block;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: $border-radius-small;
+  @include clearfix;
+  @include default-transition;
+  @include material-box-shadow-soft;
+  &:hover,
+  &:focus {
+    @include material-box-shadow-soft(2);
+    text-decoration: none;
+  }
+  &.statcard-icon {
+    .icon-rounded {
+      float: left;
+    }
+    .startcard-body {
+      padding-left: 15px;
+      float: left;
+      /** truncat title if is to long **/
+      width: calc(100% - 60px);
+      .statcard-title {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+.statcard-title {
+  color: $text-color;
+  font-size: $font-size-base;
+  font-weight: 500;
+  margin: 0;
+}

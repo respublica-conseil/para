@@ -18,7 +18,7 @@ module Para
 
           track_job(job)
         else
-          render 'new'
+          render 'new', status: 422
         end
       end
 
@@ -31,18 +31,18 @@ module Para
           importer.name == importer_name
         end
 
-        unless @importer
-          raise "Requested importer (#{ importer_name }) not found for " +
-                ":#{ @component.identifier } component."
-        end
+        return if @importer
+
+        raise "Requested importer (#{importer_name}) not found for " +
+              ":#{@component.identifier} component."
       end
 
       def file_params
         @file_params ||= if params[:file]
-          params.require(:file).permit(:attachment)
-        else
-          {}
-        end
+                           params.require(:file).permit(:attachment)
+                         else
+                           {}
+                         end
       end
     end
   end

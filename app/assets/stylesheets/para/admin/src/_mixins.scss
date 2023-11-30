@@ -1,0 +1,127 @@
+//
+// Mixins
+// --------------------------------------------------
+
+//== Colors
+//
+//## Most of the mixins is here some other are in buttons.sass & form.sass
+
+//** Dont need to use .fa class etc juste add &:before content: '\???' where you want
+@mixin fontAwesome {
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  /* sprites.less reset */
+  display: inline-block;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  margin-top: 0;
+}
+//** Merge clearfix mixin
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+//** Display flex for vertical & horizontal alignement
+}
+@mixin display_flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+@mixin vCenter {
+  @include display_flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+@mixin hCenter {
+  @include display_flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+//** Used for form input search, selectize and other
+@mixin filter-style {
+  border: none;
+  width: 100%;
+  background-color: $gray-lighter;
+  box-shadow: 0px 1px 3px 0px rgba(32,36,45, .12) inset, 0px 1px 2px 0px rgba(32,36,45, .24) inset;
+  border-radius: 20px;
+}
+//** Sass Mixin to target child of elements
+@mixin first-child() {
+  &:first-of-type {
+    @content;
+
+//** Default theme transition & shadow
+  }
+}
+@mixin default-transition($time: 0.3s) {
+  transition: all $time cubic-bezier(.25,.8,.25,1);
+}
+@mixin material-box-shadow($depth: 1) {
+  @if $depth == 1 {
+    box-shadow: 0 1px 3px rgba(32,36,45,0.12), 0 1px 2px rgba(32,36,45,0.24);
+  }
+  @if $depth == 2 {
+    box-shadow: 0 3px 6px rgba(32,36,45,0.16), 0 3px 6px rgba(32,36,45,0.23);
+  }
+  @if $depth == 3 {
+    box-shadow: 0 10px 20px rgba(32,36,45,0.19), 0 6px 6px rgba(32,36,45,0.23);
+  }
+  @if $depth == 4 {
+    box-shadow: 0 14px 28px rgba(32,36,45,0.25), 0 10px 10px rgba(32,36,45,0.22);
+  }
+  @if $depth == 5 {
+    box-shadow: 0 19px 38px rgba(32,36,45,0.30), 0 15px 12px rgba(32,36,45,0.22);
+  }
+}
+@mixin material-box-shadow-soft($depth: 1) {
+  @if $depth == 1 {
+    box-shadow: 0 1px 3px rgba(32,36,45,0.03), 0 1px 2px rgba(32,36,45,0.06);
+  }
+  @if $depth == 2 {
+    box-shadow: 0 3px 6px rgba(32,36,45,0.04), 0 3px 6px rgba(32,36,45,0.06);
+  }
+  @if $depth == 3 {
+    box-shadow: 0 10px 20px rgba(32,36,45,0.05), 0 6px 6px rgba(32,36,45,0.06);
+  }
+  @if $depth == 4 {
+    box-shadow: 0 14px 28px rgba(32,36,45,0.06), 0 10px 10px rgba(32,36,45,0.06);
+  }
+  @if $depth == 5 {
+    box-shadow: 0 19px 38px rgba(32,36,45,0.08), 0 15px 12px rgba(32,36,45,0.06);
+  };
+//** Grab cursor Mixin;
+}
+@mixin grab-cursor {
+  cursor: -moz-grab;
+  cursor: -o-grab;
+  cursor: -ms-grab;
+  cursor: grab;
+}
+@mixin grabbing-cursor {
+  cursor: -moz-grabbing;
+  cursor: -o-grabbing;
+  cursor: -ms-grabbing;
+  cursor: grabbing;
+}
