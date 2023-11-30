@@ -1,0 +1,33 @@
+{
+  "name": "@para/para",
+  "version": "1.0.0",
+  "description": "Javascript engine for Para",
+  "main": "app/javascripts/para/index.js",
+  "files": [
+    "app/javascripts/para"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/para/para-cms.git"
+  },
+  "author": "Valentin Ballestrino",
+  "license": "MIT",
+  "homepage": "https://github.com/para/para-cms",
+  "scripts": {
+    "build": "esbuild app/javascripts/para/index.js --bundle --sourcemap --outfile=dist/index.js"
+  },
+  "dependencies": {
+    "sifter": "^0.6.0",
+    "@selectize/selectize": "^0.15.2",
+    "bootstrap": "^3.4.1",
+    "jquery": "^3.6.0",
+    "sortablejs": "^1.15.1",
+    "@hotwired/stimulus": "^3.2.2"
+  },
+  "peerDependencies": {
+    "@hotwired/turbo-rails": "^7.3.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.8"
+  }
+}

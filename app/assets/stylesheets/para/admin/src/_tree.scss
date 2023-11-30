@@ -1,0 +1,60 @@
+//
+// Tree
+// --------------------------------------------------
+
+//== Main style
+//
+//##
+
+.root-tree {
+  padding-left: 0;
+  .tree {
+    padding-left: 40px;
+
+    .sortable-dragging {
+      .placeholder,
+      .btn-group {
+        display: none;
+      }
+    }
+  }
+  .sortable-placeholder {
+    height: 30px;
+    margin: 10px 0px 20px 0;
+  }
+}
+.node {
+  border-left: 4px solid $gray-light;
+  padding-bottom: 5px;
+  margin-top: 15px;
+  .node-row {
+    @include default-transition;
+    border-bottom: 1px dashed $gray-light;
+    padding: 5px;
+    &:first-child {
+      border-top: 1px dashed $gray-light;
+    }
+    &:hover {
+      background-color: $gray-lighter;
+    }
+    .btn {
+      margin: 0 3px;
+    }
+  }
+  .handle {
+    font-size: 14px;
+    margin: 4px 14px 0 5px;
+  }
+  .node-name {
+    margin-top: 4px;
+    display: inline-block;
+  }
+  .placeholder {
+    border: dashed 1px $gray;
+    height: 30px;
+    margin-top: 5px;
+  }
+}
+.tree {
+  list-style: none;
+}

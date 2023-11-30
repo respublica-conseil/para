@@ -30,6 +30,8 @@ module Para
     class JobsController < Para::Admin::ComponentController
       include Para::Admin::ResourceControllerConcerns
 
+      helper_method :job_additional_attributes
+
       def show
         @status = ActiveJob::Status.get(params[:id])
 
@@ -59,7 +61,11 @@ module Para
         @job = job
         @status = ActiveJob::Status.get(@job)
 
-        render 'show', layout: false
+        redirect_to action: :show, id: @job.job_id, status: 303
+      end
+
+      def job_additional_attributes
+        {}
       end
     end
   end

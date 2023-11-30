@@ -1,0 +1,28 @@
+//
+// Variables
+// --------------------------------------------------
+
+//== Bootstrap variables, Compass & fonts
+//
+//##
+
+@import "para/admin/src/bootstrap-variables";
+
+//== Specific variables
+//
+//##
+
+//** Colors
+
+$blue-darker: #3F4352;
+$purple: #AB8CE4;
+
+//** padding & margin spacer
+
+$spacer: 10px;
+$spacer-y: $spacer;
+$spacer-x: $spacer;
+
+//** Left menu
+
+$left-menu-width-open: 220px;

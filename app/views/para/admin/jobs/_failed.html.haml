@@ -3,5 +3,5 @@
     = model_translate(:error, scope: "para.jobs", model: job)
 
 = modal.footer do
-  %button.btn.btn-default{ data: { dismiss: 'modal' } }
+  %button.btn.btn-default{ data: { action: 'click->para-admin-modal#closeModal' } }
     = t('para.shared.close')

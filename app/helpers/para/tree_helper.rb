@@ -19,7 +19,7 @@ module Para
         ),
         class: 'btn btn-sm btn-icon-primary btn-shadow hint--left',
         aria: {
-          label: ::I18n.t('para.shared.edit')  
+          label: ::I18n.t('para.shared.edit')
         }
       ) do
         content_tag(:i, '', class: 'fa fa-pencil')
@@ -29,13 +29,13 @@ module Para
     def delete_button(resource)
       link_to(
         component.relation_path(resource),
-        method: :delete,
         data: {
-          confirm: ::I18n.t('para.list.delete_confirmation')
+          'turbo-method': :delete,
+          'turbo-confirm': ::I18n.t('para.list.delete_confirmation')
         },
         class: 'btn btn-sm btn-icon-danger btn-shadow hint--left',
         aria: {
-          label: ::I18n.t('para.shared.destroy')  
+          label: ::I18n.t('para.shared.destroy')
         }
       ) do
         content_tag(:i, '', class: 'fa fa-times')

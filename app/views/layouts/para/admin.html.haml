@@ -22,8 +22,10 @@
     = render partial: template_path_lookup('admin/shared/_header', 'para/admin/shared/_header')
 
     .container-fluid.page-content.admin-main-page-content
-      = display_admin_flash
+      = render partial: template_path_lookup('admin/shared/_flash', 'para/admin/shared/_flash')
 
       = yield
 
-    = javascript_include_tag 'para/admin', :'data-turbolinks-eval' => false, :'data-turbolinks-suppress-warning' => true
+    = turbo_frame_tag "para_admin_modal", data: { controller: "para-admin-modal" }
+    
+    = javascript_include_tag 'para/admin', :'data-turbo-eval' => false, :'data-turbo-suppress-warning' => true

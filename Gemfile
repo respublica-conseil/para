@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 # Declare your gem's dependencies in para.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -13,14 +13,10 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
-gem 'jquery-rails'
-gem 'turbolinks'
-gem 'coffee-rails', '~> 5.0.0'
+gem 'turbo-rails', '~> 1.5'
 
+gem 'bootstrap-kaminari-views', '>= 0.0.5'
 gem 'devise', '>= 3.0'
-gem 'simple_form'
-gem 'simple_form_extension'
 gem 'kaminari', '>= 0.16.1'
 gem 'ransack', '>= 1.4.1'
-gem 'bootstrap-kaminari-views', '>= 0.0.5'
-gem 'redactor-rails', github: 'glyph-fr/redactor-rails'
+gem 'simple_form'

@@ -5,10 +5,10 @@ module Para
 
       def find_partial_for(relation, partial, partial_dir: 'admin/resources')
         relation_class = if model?(relation.class)
-          relation = relation.class
-        elsif model?(relation)
-          relation
-        end
+                           relation = relation.class
+                         elsif model?(relation)
+                           relation
+                         end
 
         relation_name = find_relation_name_for(
           plural_file_path_for(relation), partial,
@@ -17,9 +17,9 @@ module Para
         )
 
         if relation_name
-          "admin/#{ relation_name }/#{ partial }"
+          "admin/#{relation_name}/#{partial}"
         else
-          "para/#{ partial_dir }/#{ partial }"
+          "para/#{partial_dir}/#{partial}"
         end
       end
 
@@ -40,7 +40,7 @@ module Para
 
       def template_path_lookup(*paths)
         path = paths.find { |path| lookup_context.find_all(path).any? }
-        path&.gsub(/\/_([^\/]+)\z/, '/\1')
+        path&.gsub(%r{/_([^/]+)\z}, '/\1')
       end
 
       def resource_title_for(resource)
@@ -56,26 +56,37 @@ module Para
       def registered_components_options
         Para::Component.registered_components.keys.map do |identifier|
           [
-            t("para.component.#{ identifier }.name", default: identifier.to_s.humanize),
+            t("para.component.#{identifier}.name", default: identifier.to_s.humanize),
             identifier
           ]
         end
       end
 
-      def flash_message(type, resource = nil)
-        key = "#{ flash_shared_key }.#{ params[:action] }.#{ type }"
+      def flash_message(type, resource = nil, now: false)
+        flash_shared_key = 'para.flash.shared'
+        key_suffix = "#{params[:action]}.#{type}"
 
-        translation = if resource
-          ::I18n.t(key, model: resource.class.model_name.human)
-        else
-          ::I18n.t(key)
-        end
+        shared_key = "#{flash_shared_key}.#{key_suffix}"
 
-        flash[type] = translation
-      end
+        shared_translation =
+          if resource
+            ::I18n.t(shared_key, model: resource.class.model_name.human)
+          else
+            ::I18n.t(shared_key)
+          end
 
-      def flash_shared_key
-        'para.flash.shared'
+        translation =
+          if resource
+            ::I18n.t(
+              "para.flash.#{resource.class.base_class.model_name.i18n_key}.#{key_suffix}",
+              default: shared_translation
+            )
+          else
+            shared_translation
+          end
+
+        flash_receiver = now ? flash.now : flash
+        flash_receiver[type] = translation
       end
 
       private
@@ -88,10 +99,10 @@ module Para
         object.respond_to?(:model_name)
       end
 
-      def partial_exists?(relation, partial, overrides_root: 'admin', **options)
+      def partial_exists?(relation, partial, overrides_root: 'admin', **_options)
         partial_path = partial.to_s.split('/')
-        partial_path[-1] = "_#{ partial_path.last }"
-        lookup_context.find_all("#{ overrides_root }/#{relation}/#{ partial_path.join('/') }").any?
+        partial_path[-1] = "_#{partial_path.last}"
+        lookup_context.find_all("#{overrides_root}/#{relation}/#{partial_path.join('/')}").any?
       end
     end
   end

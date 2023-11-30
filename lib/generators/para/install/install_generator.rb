@@ -1,6 +1,6 @@
 module Para
   class InstallGenerator < Rails::Generators::Base
-    source_root File.expand_path('../templates', __FILE__)
+    source_root File.expand_path('templates', __dir__)
 
     desc 'Para install generator'
 
@@ -29,16 +29,13 @@ module Para
         # This should be avoided when add an initializer namespaced to the
         # para environment
         ['simple_form'],
-        ['simple_form_extension'],
         # Pull requests are pending, and I don't want to release the gem
         # under another name to be able to depend on it
         ['kaminari', '>= 0.16.1'],
         ['ransack', '>= 1.4.1'],
         ['bootstrap-kaminari-views', '>= 0.0.5']
       ].each do |name, *args|
-        unless gemfile_contents.match(/gem ['"]#{ name }['"]/)
-          gem name, *args
-        end
+        gem name, *args unless gemfile_contents.match(/gem ['"]#{name}['"]/)
       end
     end
 
@@ -55,7 +52,6 @@ module Para
 
     def simple_form_install
       generate 'simple_form:install', '--bootstrap'
-      generate 'simple_form_extension:install'
     end
 
     def migrate
@@ -67,24 +63,24 @@ module Para
     end
 
     def mount_engine
-      say "Mounting Para engine in routes"
+      say 'Mounting Para engine in routes'
       gsub_file 'config/routes.rb', /para_at.+\n/, ''
       route "para_at '/'"
     end
 
     def final_message
-      say <<-MESSAGE
+      say <<~MESSAGE
 
-*******************************************************************************
+        *******************************************************************************
 
-Para was successfully installed in your app.
+        Para was successfully installed in your app.
 
-Please not that your should define your root path in your application routes.rb
-for the Para admin panel to work :
+        Please not that your should define your root path in your application routes.rb
+        for the Para admin panel to work :
 
-  e.g.: root to: 'home#index'
+          e.g.: root to: 'home#index'
 
-*******************************************************************************
+        *******************************************************************************
 
       MESSAGE
     end

@@ -16,14 +16,12 @@ module Para
         )
 
         options = {
-          method: :post,
           class: 'btn btn-sm btn-icon-info btn-shadow hint--left',
-          aria: {
-            label: ::I18n.t('para.shared.copy')
-          }
+          data: { 'turbo-method': :post, 'turbo-frame': '_top' },
+          aria: { label: ::I18n.t('para.shared.copy') }
         }
 
-        view.link_to(path, options) do
+        view.link_to(path, **options) do
           content_tag(:i, '', class: 'fa fa-copy')
         end
       end
@@ -35,7 +33,13 @@ module Para
           resource, action: :edit, return_to: view.request.fullpath
         )
 
-        view.link_to(path, class: 'btn btn-sm btn-icon-primary btn-shadow hint--left', aria: { label: ::I18n.t('para.shared.edit') }) do
+        options = {
+          class: 'btn btn-sm btn-icon-primary btn-shadow hint--left',
+          data: { 'turbo-frame': '_top' },
+          aria: { label: ::I18n.t('para.shared.edit') }
+        }
+
+        view.link_to(path, **options) do
           content_tag(:i, '', class: 'fa fa-pencil')
         end
       end
@@ -46,17 +50,17 @@ module Para
         path = component.relation_path(resource, return_to: view.request.fullpath)
 
         options = {
-          method: :delete,
-          data: {
-            confirm: ::I18n.t('para.list.delete_confirmation')
-          },
           class: 'btn btn-sm btn-icon-danger btn-shadow hint--left',
+          data: {
+            'turbo-method': :delete,
+            'turbo-confirm': ::I18n.t('para.list.delete_confirmation')
+          },
           aria: {
             label: ::I18n.t('para.shared.destroy')
           }
         }
 
-        view.link_to(path, options) do
+        view.link_to(path, **options) do
           content_tag(:i, '', class: 'fa fa-times')
         end
       end

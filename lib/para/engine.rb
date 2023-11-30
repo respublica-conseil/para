@@ -1,19 +1,22 @@
 module Para
   class Engine < ::Rails::Engine
     initializer 'add vendor path to assets pipeline' do |app|
-      %w(javascripts stylesheets).each do |folder|
-        app.config.assets.paths << File.expand_path(
-          "../../../vendor/assets/#{ folder }",
-          __FILE__
-        )
+      %w[javascripts stylesheets images].each do |folder|
+        app.config.assets.paths << vendor_asset_path_for(folder)
       end
     end
 
     initializer 'Para precompile hook', group: :all do |app|
-      app.config.assets.precompile += %w(
+      app.config.assets.precompile += %w[
         para/admin.js
         para/admin.css
-      )
+      ]
+    end
+
+    initializer 'add images to precompile hook' do |app|
+      Dir[vendor_asset_path_for('images/**/*.*')].each do |image_path|
+        app.config.assets.precompile << image_path.split('/images/').pop
+      end
     end
 
     initializer 'Para Orderable Mixin' do
@@ -37,14 +40,6 @@ module Para
       end
     end
 
-    initializer 'Add IFrame transport support' do |app|
-      app.middleware.use Para::IframeTransport::Middleware
-
-      ActiveSupport.on_load(:action_controller) do
-        ActionDispatch::Request.prepend Para::Ext::Request::IFrameXHR
-      end
-    end
-
     initializer 'Add resource name methods to simple form extension' do
       ::SimpleFormExtension.resource_name_methods = (
         Para.config.resource_name_methods +
@@ -54,9 +49,7 @@ module Para
 
     initializer 'Extend active job status\' status class' do
       ActiveSupport.on_load(:active_job) do
-        ::ActiveJob::Status::Status.send(
-          :include, Para::Ext::ActiveJob::StatusMixin
-        )
+        ::ActiveJob::Status::Status.include Para::Ext::ActiveJob::StatusMixin
       end
     end
 
@@ -84,9 +77,8 @@ module Para
     end
 
     initializer 'Configure ActiveJob' do
-      if ActiveSupport::Cache::NullStore === ActiveJob::Status.store ||
-         ActiveSupport::Cache::MemoryStore === ActiveJob::Status.store
-      then
+      if ActiveJob::Status.store.is_a?(ActiveSupport::Cache::NullStore) ||
+         ActiveJob::Status.store.is_a?(ActiveSupport::Cache::MemoryStore)
         ActiveJob::Status.store = Para.config.jobs_store
       end
 
@@ -108,7 +100,7 @@ module Para
         if Para.config.enable_app_breadcrumbs
           include Para::Breadcrumbs::Controller
         else
-          Para::ApplicationController.send(:include, Para::Breadcrumbs::Controller)
+          Para::ApplicationController.include Para::Breadcrumbs::Controller
         end
       end
     end
@@ -122,6 +114,12 @@ module Para
       generators.stylesheets     false
       generators.javascripts     false
       generators.test_framework  false
+    end
+
+    private
+
+    def vendor_asset_path_for(sub_path)
+      File.expand_path("../../../vendor/assets/#{sub_path}", __FILE__)
     end
   end
 end

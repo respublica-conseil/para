@@ -1,0 +1,37 @@
+//
+// Breadcrumb
+// --------------------------------------------------
+
+//== Breadcrumb override
+//
+//## Just a override of bootstrap
+
+.breadcrumb {
+  float: left;
+  width: calc(100% - 90px);
+  max-height: 60px;
+  margin: 0;
+
+  border: none;
+  border-radius: 0;
+
+  li {
+    max-width: 30%;
+    height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    a {
+      color: $breadcrumb-color;
+      font-size: 1em;
+      font-weight: 300;
+      text-decoration: none;
+    }
+    &.active {
+      a {
+        color: $breadcrumb-active-color;
+      }
+    }
+  }
+}

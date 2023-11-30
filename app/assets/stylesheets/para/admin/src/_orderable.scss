@@ -1,0 +1,48 @@
+//
+// Orderable
+// --------------------------------------------------
+
+//== Re-ordered & handle barre styles
+//
+//##
+
+.order-anchor,
+.handle {
+  color: $text-color;
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: grab;
+  outline: 0;
+  font-size: 14px;
+  line-height: 20px;
+  width: 21px;
+  display: inline-block;
+  @include default-transition;
+  &:hover {
+    color: $gray-darker;
+  }
+  &:focus,
+  &:focus:active {
+    cursor: move;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+    border-radius: $border-radius-base;
+    margin: 0;
+    background-color: $gray;
+    color: $gray-darker;
+    text-align: center;
+  }
+  .sort-dots:after {
+    color: $gray;
+    content: '\2807\2807';
+    font-size: 30px;
+    font-style: normal;
+    letter-spacing: -14px;
+    vertical-align: middle;
+  }
+}
+.sortable-placeholder {
+  border: 1px dotted $gray;
+  width: 100%;
+  background-color: $gray-lighter;
+}
