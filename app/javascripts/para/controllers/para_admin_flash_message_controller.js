@@ -13,11 +13,16 @@ export default class extends Controller {
 
   close() {
     this.element.classList.remove("in");
+    this.removeTimer = setTimeout(() => this.element.remove(), 500);
   }
 
   cleanTimer() {
     if (this.autoCloseTimer) {
       clearTimeout(this.autoCloseTimer);
+    }
+
+    if (this.removeTimer) {
+      clearTimeout(this.removeTimer);
     }
   }
 }
