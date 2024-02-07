@@ -1,3 +1,5 @@
+import { PATCH, fetch } from "../lib/fetch";
+
 Para.ResourceTree = class ResourceTree {
   constructor($el1) {
     this.initializeSubTree = this.initializeSubTree.bind(this);
@@ -5,7 +7,6 @@ Para.ResourceTree = class ResourceTree {
     // takes quite some processing.
     this.isMovementValid = this.isMovementValid.bind(this);
     this.handleOrderUpdated = this.handleOrderUpdated.bind(this);
-    this.orderUpdated = this.orderUpdated.bind(this);
     this.$el = $el1;
     this.initializeTree();
   }
@@ -69,7 +70,7 @@ Para.ResourceTree = class ResourceTree {
       this.handlePlaceholder($el);
     }
     // Save the tree structure on the server
-    return this.updateOrder();
+    this.updateOrder();
   }
 
   // This method checks wether a given tree leaf can be a drop target, depending
@@ -92,38 +93,32 @@ Para.ResourceTree = class ResourceTree {
   }
 
   updateOrder() {
-    return Para.ajax({
-      url: this.orderUrl,
-      method: 'patch',
-      data: {
-        resources: this.buildOrderedData()
-      },
-      success: this.orderUpdated
+    fetch(this.orderUrl, { 
+      method: PATCH, 
+      body: this.buildOrderedData() 
     });
   }
 
   buildOrderedData() {
-    var data;
-    data = {};
-    $(".node").each(function(index) {
-      var $this;
-      $this = $(this);
-      return data[index] = {
-        id: $this.data("id"),
-        position: index,
-        parent_id: $this.parents(".node:first").data("id")
-      };
+    const data = new FormData();
+
+    $(".node").each(function(index, el) {
+      const $el = $(el);
+      const resourceKey =  `resources[${index}]`
+      const parentId = $el.parents(".node").last().data("id") || "";
+
+      data.append(`${resourceKey}[id]`, $el.data("id"));
+      data.append(`${resourceKey}[position]`, index);
+      data.append(`${resourceKey}[parent_id]`, parentId);
     });
+
     return data;
   }
-
-  orderUpdated() {}
-
 };
 
 // TODO: Add flash message to display ordering success
 $(document).on('turbo:load turbo:frame-load', function() {
-  return $('.root-tree').each(function(i, el) {
+  return $('.root-tree').each(function(_i, el) {
     return new Para.ResourceTree($(el));
   });
 });

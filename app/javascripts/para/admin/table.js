@@ -1,3 +1,5 @@
+import { PATCH, fetch } from "../lib/fetch";
+
 Para.ResourceTable = class ResourceTable {
   constructor($table) {
     this.$table = $table;
@@ -27,33 +29,25 @@ Para.ResourceTable = class ResourceTable {
   }
 
   updateOrder() {
-    return Para.ajax({
-      url: this.orderUrl,
-      method: 'patch',
-      data: {
-        resources: this.buildOrderedData()
-      },
-      success: $.proxy(this.orderUpdated, this)
+    fetch(this.orderUrl, {
+      method: PATCH,
+      body: this.buildOrderedData()
     });
   }
 
   buildOrderedData() {
-    var $field, field, i, ref, results;
-    ref = this.$tbody.find('.resource-position-field').get();
-    results = [];
-    for (i in ref) {
-      field = ref[i];
-      $field = $(field);
-      results.push({
-        id: $field.closest('.order-anchor').data('id'),
-        position: $field.val()
-      });
-    }
-    return results;
+    const data = new FormData();
+
+    this.$tbody.find('.resource-position-field').each((i, el) => {
+      const $field = $(el);
+      const resourceKey = `resources[${i}]`;
+
+      data.append(`${resourceKey}[id]`, $field.closest('.order-anchor').data('id'));
+      data.append(`${resourceKey}[position]`, $field.val());  
+    });
+
+    return data;
   }
-
-  orderUpdated() {}
-
 };
 
 // TODO: Add flash message to display ordering success

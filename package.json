@@ -1,6 +1,6 @@
 {
   "name": "@para/para",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Javascript engine for Para",
   "main": "app/javascripts/para/index.js",
   "files": [
@@ -17,12 +17,13 @@
     "build": "esbuild app/javascripts/para/index.js --bundle --sourcemap --outfile=dist/index.js"
   },
   "dependencies": {
-    "sifter": "^0.6.0",
+    "@hotwired/stimulus": "^3.2.2",
     "@selectize/selectize": "^0.15.2",
     "bootstrap": "^3.4.1",
+    "cross-fetch": "^3.1.5",
     "jquery": "^3.6.0",
-    "sortablejs": "^1.15.1",
-    "@hotwired/stimulus": "^3.2.2"
+    "sifter": "^0.6.0",
+    "sortablejs": "^1.15.1"
   },
   "peerDependencies": {
     "@hotwired/turbo-rails": "^7.3.0"
