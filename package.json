@@ -1,6 +1,6 @@
 {
   "name": "@para/para",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Javascript engine for Para",
   "main": "app/javascripts/para/index.js",
   "files": [

@@ -57,7 +57,7 @@ ref = Para.Tabs = (function() {
     
     initializeAffix() {
       var headerHeight, offsetTop, sidebarWidth;
-      if (!(this.$nav = this.$('[data-tabs-nav-affix]')).length) {
+      if (!(this.$nav = this.$('[data-affix-header="tabs"]')).length) {
         return;
       }
       headerHeight = $('[data-header]').outerHeight();

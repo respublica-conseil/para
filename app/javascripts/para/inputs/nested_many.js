@@ -109,7 +109,7 @@ Para.NestedManyField = class NestedManyField {
     var $affixNavTabs, $field, scrollOffset;
     $field = this.$field.find(`[data-toggle='collapse'][href='#${$target.attr('id')}']`);
     scrollOffset = -($('[data-header]').outerHeight() + 30);
-    if (($affixNavTabs = $("[data-tabs-nav-affix]:eq(0)")).length) {
+    if (($affixNavTabs = $('[data-affix-header="tabs"]:eq(0)')).length) {
       scrollOffset -= $affixNavTabs.outerHeight();
     }
     return $.scrollTo($field, 200, {

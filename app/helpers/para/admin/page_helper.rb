@@ -4,10 +4,9 @@ module Para
       def page_top_bar(options = {})
         top_bar = content_tag(:div, class: 'page-title row') do
           content_tag(:h1, options[:title]) +
-
-          if (actions = actions_for(options[:type]))
-            actions.map(&method(:build_action)).join('').html_safe
-          end
+            if (actions = actions_for(options[:type]))
+              actions.map(&method(:build_action)).join('').html_safe
+            end
         end
 
         # Return both top bar and component navigation to be displayed at the top of the
@@ -17,7 +16,7 @@ module Para
 
       def build_action(action)
         link_options = action.fetch(:link_options, {})
-        link_options[:class] ||= "btn btn-default btn-shadow"
+        link_options[:class] ||= 'btn btn-default btn-shadow btn-sm'
 
         content_tag(:div, class: 'actions-control pull-right') do
           link_to(action[:url], link_options) do
@@ -49,10 +48,10 @@ module Para
         partial_target = parent_component.try(:model_type) || parent_component
 
         render partial: find_partial_for(partial_target, :navigation),
-                locals: {
-                  parent_component: parent_component,
-                  active_component: @component
-                }
+               locals: {
+                 parent_component: parent_component,
+                 active_component: @component
+               }
       end
     end
   end

@@ -1,8 +1,13 @@
 = turbo_frame_tag "para_admin_flash_messages" do
   - flash.each do |type, message|
+    -# Ensure the flash is discarded after it's displayed so it's not displayed again on 
+    -# the next request
+    - flash.discard(type)
+
+    -# Convert the provided flash type to a bootstrap-compatible color class type
     - type = homogenize_flash_type(type)
 
-    .alert{ class: "alert-#{type} fade in", data: { controller: "para-admin-flash-message", action: "click->para-admin-flash-message#close" } }
+    .alert{ class: "alert-#{type} fade", data: { controller: "para-admin-flash-message", action: "click->para-admin-flash-message#close" } }
       %button.close{ 'aria-label': 'Close', type: 'button' }
         %span{ 'aria-hidden': 'true' } &times;
 

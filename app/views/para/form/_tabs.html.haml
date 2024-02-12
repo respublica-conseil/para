@@ -2,7 +2,7 @@
   -# The .nav-tabs-wrapper is used to maintain the tabs height when the tabs
   -# are fixed to top
   .nav-tabs-wrapper{ data: { :'nav-tabs-wrapper' => true } }
-    %ul.nav.nav-tabs.affix-no-mobile{ role: 'tablist', data: { :'tabs-nav-affix' => tabs_manager.affix? } }
+    %ul.nav.nav-tabs.affix-no-mobile{ role: 'tablist', data: { :'affix-header' => tabs_manager.affix? && "tabs" } }
       - tabs.each do |tab|
         %li{ class: ('active' if tab.active?), role: 'presentation' }
           = link_to "##{ tab.dom_id }", role: 'tab', aria: { controls: 'settings' }, data: { toggle: 'tab' } do

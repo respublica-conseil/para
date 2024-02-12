@@ -32,14 +32,18 @@ body {
 //##
 
 .page-title {
-  background-color: #fff;
-  padding: 15px 25px 15px 25px;
+  height: 55px;
+
   z-index: $zindex-navbar-fixed + 1;
+  padding: 10px 25px;
+  background-color: #fff;
   @include material-box-shadow-soft(2);
+
   h1 {
     margin: 0;
-    font-weight: 300;
     float: left;
+    font-size: 1rem;
+    font-weight: 500;
     line-height: 34px;
   }
 }
