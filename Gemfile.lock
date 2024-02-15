@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    para (0.11.4)
+    para (0.11.6)
       active_decorator (~> 1.0)
       activejob-status
       bootstrap-sass (>= 3.3, < 3.5)
@@ -213,6 +213,8 @@ GEM
     nio4r (2.7.0)
     nokogiri (1.16.2-arm64-darwin)
       racc (~> 1.4)
+    nokogiri (1.16.2-x86_64-darwin)
+      racc (~> 1.4)
     orm_adapter (0.5.0)
     paperclip (6.1.0)
       activemodel (>= 4.2.0)
@@ -343,6 +345,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  x86_64-darwin-22
 
 DEPENDENCIES
   bootstrap-kaminari-views (>= 0.0.5)
