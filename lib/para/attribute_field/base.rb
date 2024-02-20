@@ -79,6 +79,9 @@ module Para
       def searchable?
         options[:searchable] != false && (
           [:string, :text].include?(type.to_sym) && !name.match(/password/)
+        ) && (
+          !model.respond_to?(:ransackable_attributes) || 
+          model.ransackable_attributes.include?(name.to_s)
         )
       end
 
