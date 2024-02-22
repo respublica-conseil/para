@@ -13,6 +13,8 @@ module SimpleFormExtension
     end
 
     def file_preview_and_remove_button
+      return '' unless file_exists?
+      
       content_tag(:div, class: 'btn-group') do
         template.link_to(file_url, class: 'btn btn-default ', target: '_blank', data: { toggle: 'existing-file' }) do
           content_tag(:i, '', class: 'fa fa-file') +
@@ -66,7 +68,7 @@ module SimpleFormExtension
     def activestorage_attachment_attached?
       @activestorage_attachment_attached ||=
         object.try(attribute_name).try(:attached?) &&
-        object.try(attribute_name).blob
+        object.try(attribute_name).blob&.persisted?
     end
   end
 end
