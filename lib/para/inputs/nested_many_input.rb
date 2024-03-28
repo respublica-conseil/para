@@ -31,6 +31,7 @@ module Para
               subclasses: subclasses,
               add_button_label: add_button_label,
               add_button_class: add_button_class,
+              allow_destroy_if: allow_destroy_if,
               inset: inset?,
               uncollapsed: uncollapsed?,
               render_partial: render_partial?,
@@ -57,6 +58,10 @@ module Para
 
       def model
         @model ||= parent_model.reflect_on_association(attribute_name).klass
+      end
+
+      def allow_destroy_if
+        options.fetch(:allow_destroy_if, nil)
       end
 
       def inset?

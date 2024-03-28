@@ -18,24 +18,25 @@ module Para
           end
 
           name = (name_method && object.send(name_method)) || default_resource_name
-          name = name.to_s.gsub(/(<\/p>|<br\s*\/?>)/, " ")
+          name = name.to_s.gsub(%r{(</p>|<br\s*/?>)}, ' ')
 
           template.sanitize(name, tags: [])
         end
       end
 
       def nested_resource_dom_id
-        return "" unless nested?
+        return '' unless nested?
 
         @nested_resource_dom_id ||= [
           object.class.model_name.singular,
           (Time.now.to_f * 1000).to_i,
-          (object.id || "_new_#{ nested_attribute_name }_id")
+          object.id || "_new_#{nested_attribute_name}_id"
         ].join('-')
       end
 
-      def remove_association_button
-        return "" unless allow_destroy?
+      def remove_association_button(allow_destroy_if:)
+        return '' unless allow_destroy?
+        return '' unless !allow_destroy_if || allow_destroy_if.call(object)
 
         template.content_tag(:div, class: 'panel-btns') do
           template.link_to_remove_association(

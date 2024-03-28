@@ -9,7 +9,7 @@
         = form.nested_resource_name
         %i.fa.fa-angle-up
 
-    = form.remove_association_button
+    = form.remove_association_button(allow_destroy_if: allow_destroy_if)
 
   .panel-collapse.form-inputs.collapse{ id: form.nested_resource_dom_id, class: ('in' if uncollapsed && form.object.persisted?), data: { rendered: render_partial, render_path: @component.path(**remote_partial_params), id: form.object.id, :"object-name" => form.object_name, :"model-name" => model.name } }
     .panel-body{ data: { :"nested-form-container" => true } }
