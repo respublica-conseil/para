@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Para
-  VERSION = '0.11.10'
+  VERSION = '0.11.11'
 end

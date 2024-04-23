@@ -46,15 +46,12 @@ module Para
     end
 
     def excerpt_value_for(value)
-      return value unless value.kind_of?(String)
+      return value unless value.is_a?(String)
 
-      value = sanitize(value, tags: [])
-
-      if (truncated = value[0..100]) != value
-        "#{ truncated }..."
-      else
-        value
-      end
+      truncate(
+        sanitize(value, tags: []),
+        length: 100
+      )
     end
   end
 end

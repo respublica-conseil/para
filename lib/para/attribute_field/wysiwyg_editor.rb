@@ -10,13 +10,6 @@ module Para
         options.reverse_merge!(type: 'text', field_type: 'wysiwyg_editor')
         super(model, options)
       end
-
-      def value_for(instance)
-        (value = instance.send(name)) && truncate(
-          sanitize(value, tags: []),
-          length: 50
-        )
-      end
     end
   end
 end
