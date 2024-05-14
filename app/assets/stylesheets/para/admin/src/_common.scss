@@ -51,7 +51,7 @@
   }
 }
 .fa-thumb-tack {
-  @include rotate(-45deg);
+  transform: rotate(-45deg);
   font-size: 25px;
   color: #fff;
   text-shadow: 0px 0px 1px #aaaaaa;

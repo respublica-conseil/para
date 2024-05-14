@@ -47,7 +47,7 @@
     left: $left-menu-width-open;
   }
   .loading-spinner {
-    margin-left: ($left-menu-width-open / 2) - ($spinner-size / 2);
+    margin-left: calc(($left-menu-width-open / 2) - ($spinner-size / 2));
   }
   //== Nested many
   //

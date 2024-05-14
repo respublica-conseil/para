@@ -38,11 +38,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'truncate_html'
   s.add_dependency 'turbo-rails'
 
-  s.add_dependency 'bootstrap-sass', '>= 3.3', '< 3.5'
   s.add_dependency 'font-awesome-rails', '~> 4.7.0'
-  s.add_dependency 'font-awesome-sass', '>= 4.7.0', '<= 6.0.0'
   s.add_dependency 'haml-rails'
-  s.add_dependency 'sass-rails'
 
   s.add_dependency 'rspec-core'
 

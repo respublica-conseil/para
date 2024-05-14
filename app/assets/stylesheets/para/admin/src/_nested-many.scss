@@ -63,7 +63,7 @@
             > a {
               border-radius: 2px;
               @include default-transition;
-              background: image_url('para/admin/template-section.svg') no-repeat $gray-lighter;
+              background: url('para/admin/template-section.svg') no-repeat $gray-lighter;
               background-position: center 10px;
               border: 1px dashed $gray;
               color: $gray;

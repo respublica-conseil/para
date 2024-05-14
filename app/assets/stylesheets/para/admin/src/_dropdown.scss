@@ -9,7 +9,7 @@
 .dropdown {
   &.open {
     .fa-angle-down {
-      @include rotate(180deg);
+      transform: rotate(180deg);
     }
   }
 }

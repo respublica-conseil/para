@@ -20,8 +20,7 @@ require 'deep_cloneable'
 require 'closure_tree'
 
 require 'turbo-rails'
-require 'sass-rails'
-require 'bootstrap-sass'
+# Used for fa_icon helper, but font awesome is loaded from the app that requires Para.
 require 'font-awesome-rails'
 
 require 'rails/routing_mapper'

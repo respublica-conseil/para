@@ -76,6 +76,13 @@ legend {
   margin-bottom: $form-group-margin-bottom;
 }
 .nested-input-title {
+  display: block;
+  width: 100%;
+  
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
   &.has-error {
     color: $brand-danger;
   }

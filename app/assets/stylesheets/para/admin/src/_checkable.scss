@@ -64,7 +64,7 @@
 }
 input[type=checkbox]:checked + label.check_boxes:before,
 input[type=checkbox]:checked + .checkbox-icon:before {
-  content: "\f046";
+  @extend .fa-square-check;
 }
 input[type=checkbox]:focus + label.check_boxes:before,
 input[type=checkbox]:focus + .checkbox-icon:before {
@@ -78,14 +78,14 @@ input[type=checkbox]:focus + .checkbox-icon:before {
     }
   }
   &:before {
-    @include fontAwesome;
-    content: "\f096";
+    @extend .fa;
+    @extend .fa-square;
     color: $input-color;
   }
 }
 input[type=radio]:checked + label.radio_buttons:before,
 input[type=radio]:checked + .radio-icon:before {
-  content: "\f192";
+  @extend .fa-circle-dot;
 }
 input[type=radio]:focus + label.radio_buttons:before,
 input[type=radio]:focus + .radio-icon:before {
@@ -99,8 +99,8 @@ input[type=radio]:focus + .radio-icon:before {
     }
   }
   &:before {
-    @include fontAwesome;
-    content: "\f10c";
+    @extend .fa;
+    @extend .fa-circle;
     color: $input-color;
   }
 }

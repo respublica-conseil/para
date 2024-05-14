@@ -1,9 +1,6 @@
 //
 // Selectize
 // --------------------------------------------------
-@import "para/admin/src/variables";
-@import "para/admin/src/mixins";
-
 @import "@selectize/selectize/dist/css/selectize";
 @import "@selectize/selectize/dist/css/selectize.bootstrap3";
 
@@ -23,18 +20,14 @@
       padding-right: 30px;
       //** Caret by para
       &:after {
+        @extend .fa;
+        @extend .fa-angle-down;
+
         right: 12px;
-        @include fontAwesome;
-        content: "\f107";
         border: none;
         margin-top: -6px;
         color: $gray;
       }
-//** Dropdown
-
-//** Active system
-
-//** Dropdown active
     }
   }
 }

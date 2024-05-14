@@ -6,24 +6,6 @@
 //
 //## Most of the mixins is here some other are in buttons.sass & form.sass
 
-//** Dont need to use .fa class etc juste add &:before content: '\???' where you want
-@mixin fontAwesome {
-  font-family: FontAwesome;
-  font-weight: normal;
-  font-style: normal;
-  text-decoration: inherit;
-  -webkit-font-smoothing: antialiased;
-  /* sprites.less reset */
-  display: inline-block;
-  width: auto;
-  height: auto;
-  line-height: normal;
-  vertical-align: baseline;
-  background-image: none;
-  background-position: 0% 0%;
-  background-repeat: repeat;
-  margin-top: 0;
-}
 //** Merge clearfix mixin
 @mixin clearfix() {
   &:before,

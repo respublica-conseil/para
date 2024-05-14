@@ -22,18 +22,17 @@ $spinner-size: 32px;
   position: fixed;
   top: 50%;
   left: 50%;
-  margin-left: ($spinner-size / 2);
+  margin-left: calc($spinner-size / 2);
   margin-top: $navbar-height - $spinner-size;
   width: $spinner-size;
   height: $spinner-size;
   z-index: 1201;
   font-size: 32px;
-  // background: image-url('para/admin/loading-spinner.gif')
+  
   &:before {
-    @include fontAwesome;
-    content: '\f1ce';
-    -webkit-animation: fa-spin 2s infinite linear;
-    animation: fa-spin 2s infinite linear;
+    @extend .fa;
+    @extend .fa-circle-notch;
+    @extend .fa-spin;
   }
 }
 .turbo-progress-bar {

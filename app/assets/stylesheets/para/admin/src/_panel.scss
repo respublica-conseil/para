@@ -13,7 +13,7 @@
   //** Panel with collapse element
   .collapsed {
     .fa-angle-up {
-      @include rotate(180deg);
+      transform: rotate(180deg);
     }
   //** Panel is orderable
   }

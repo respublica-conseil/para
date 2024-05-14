@@ -1,17 +1,15 @@
 PATH
   remote: .
   specs:
-    para (0.11.10)
+    para (0.12.0)
       active_decorator (~> 1.0)
       activejob-status
-      bootstrap-sass (>= 3.3, < 3.5)
       cancancan (~> 3.0)
       closure_tree (~> 7.0)
       cocoon
       deep_cloneable (>= 2.2.1)
       devise (>= 3.0, < 5.0)
       font-awesome-rails (~> 4.7.0)
-      font-awesome-sass (>= 4.7.0, <= 6.0.0)
       friendly_id (~> 5.1)
       haml-rails
       kaminari
@@ -24,7 +22,6 @@ PATH
       roo
       roo-xls
       rspec-core
-      sass-rails
       simple_form (>= 3.1)
       spreadsheet
       stimulus-rails
@@ -113,17 +110,12 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    autoprefixer-rails (10.4.16.0)
-      execjs (~> 2)
     base64 (0.2.0)
     bcrypt (3.1.20)
     bigdecimal (3.1.6)
     bootstrap-kaminari-views (0.0.5)
       kaminari (>= 0.13)
       rails (>= 3.1)
-    bootstrap-sass (3.4.1)
-      autoprefixer-rails (>= 5.2.1)
-      sassc (>= 2.0.0)
     builder (3.2.4)
     cancancan (3.5.0)
     climate_control (0.2.0)
@@ -146,12 +138,8 @@ GEM
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
-    execjs (2.9.1)
-    ffi (1.16.3)
     font-awesome-rails (4.7.0.8)
       railties (>= 3.2, < 8.0)
-    font-awesome-sass (6.0.0)
-      sassc (>= 2.0)
     friendly_id (5.5.1)
       activerecord (>= 4.0.0)
     globalid (1.2.1)
@@ -293,29 +281,12 @@ GEM
     ruby-ole (1.2.12.2)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
-    sassc (2.4.0)
-      ffi (~> 1.9)
-    sassc-rails (2.1.2)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
     simple_form (5.3.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     spreadsheet (1.3.1)
       bigdecimal
       ruby-ole
-    sprockets (4.2.1)
-      concurrent-ruby (~> 1.0)
-      rack (>= 2.2.4, < 4)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
-      sprockets (>= 3.0.0)
     stimulus-rails (1.3.3)
       railties (>= 6.0.0)
     stringio (3.1.0)

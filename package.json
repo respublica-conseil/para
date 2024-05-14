@@ -1,10 +1,11 @@
 {
   "name": "@para/para",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Javascript engine for Para",
   "main": "app/javascripts/para/index.js",
   "files": [
-    "app/javascripts/para"
+    "app/javascripts/para",
+    "app/assets/stylesheets/para"
   ],
   "repository": {
     "type": "git",
