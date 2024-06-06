@@ -16,10 +16,14 @@ module Para
     @@default_tree_max_depth = 3
 
     mattr_accessor :resource_name_methods
-    @@resource_name_methods = [:admin_name, :admin_title, :name, :title]
+    @@resource_name_methods = %i[admin_name admin_title name title]
 
     mattr_accessor :enable_app_breadcrumbs
     @@enable_app_breadcrumbs = true
+
+    # Allow changing this directory to allow using view_component gem
+    mattr_accessor :components_directory
+    @@para_components_directory = 'components'
 
     mattr_reader :plugins
     @@plugins = Para::Plugins::Set.new
@@ -64,7 +68,7 @@ module Para
     # that limit after writing new keys
     #
     mattr_accessor :database_cache_store_max_items
-    @@database_cache_store_max_items = 10000
+    @@database_cache_store_max_items = 10_000
 
     # Allows accessing plugins root module to configure them through a method
     # from the Para::Config class.

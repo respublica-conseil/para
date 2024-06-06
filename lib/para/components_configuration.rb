@@ -60,13 +60,11 @@ module Para
       sections.each do |section|
         section.components.each do |component|
           # If one of the section component has the searched identifier return it
-          if component.identifier.to_s == identifier.to_s
-            return component
-          else
-            component.child_components.each do |child_component|
-              # If one of the component children has the searched identifier return it
-              return child_component if child_component.identifier.to_s == identifier.to_s
-            end
+          return component if component.identifier.to_s == identifier.to_s
+
+          component.child_components.each do |child_component|
+            # If one of the component children has the searched identifier return it
+            return child_component if child_component.identifier.to_s == identifier.to_s
           end
         end
       end
@@ -139,7 +137,7 @@ module Para
     #
     def eager_load_components!
       $LOAD_PATH.each do |path|
-        next unless path.match(%r{/(para_)?components$})
+        next unless path.match(%r{/#{Para.config.components_directory}$})
 
         glob = File.join(path, '**', '*_component.rb')
 
@@ -189,10 +187,10 @@ module Para
         # Build child components if a block is provided
         instance_eval(&block) if block
 
-        unless type
-          raise UndefinedComponentTypeError, "Undefined Para component : #{type_identifier}. " +
-                                             'Please ensure that your app or gems define this component type.'
-        end
+        return if type
+
+        raise UndefinedComponentTypeError, "Undefined Para component : #{type_identifier}. " +
+                                           'Please ensure that your app or gems define this component type.'
       end
 
       def component(*args, **child_options, &block)
