@@ -22,11 +22,11 @@ function trackProgressFor(element, jobStatusUrl) {
 }
 
 document.documentElement.addEventListener('turbo:frame-load', function(e) {
-  if (e.target.id != 'para_admin_modal') return;
+  if (e.target.id !== 'para_admin_modal') return;
 
   loadedElement = e.target.childNodes[0];
 
-  var jobStatusUrl = loadedElement && loadedElement.dataset.jobStatusUrl;
+  var jobStatusUrl = loadedElement?.dataset?.jobStatusUrl;
   if (!jobStatusUrl) return;
 
   trackProgressFor(loadedElement, jobStatusUrl);

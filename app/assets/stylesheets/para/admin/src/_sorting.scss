@@ -31,12 +31,15 @@
   content: "\f0dc";
   opacity: .3;
 }
+
 .sort_link.asc:before {
-  content: "\f0d7";
-}
-.sort_link.desc:before {
   content: "\f0d8";
 }
+
+.sort_link.desc:before {
+  content: "\f0d7";
+}
+
 .sort_link.asc.disabled:before,
 .sort_link.desc.disabled:before {
   opacity: .1;

@@ -14,8 +14,6 @@ import "./vendor/jquery.sortable";
 
 import "./application";
 
-import "./lib/page-loading";
-
 import "./inputs/material-input";
 import "./inputs/multi-select-input";
 import "./inputs/nested_many";
