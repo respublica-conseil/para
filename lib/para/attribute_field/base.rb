@@ -56,6 +56,10 @@ module Para
 
         reference = model.reflect_on_all_associations.find do |association|
           association.foreign_key == name
+        rescue ArgumentError
+          # This can happen when the association is polymorphic and the foreign key can't
+          # be determined, in this case, we just ignore the association.
+          false
         end
 
         if reference
@@ -75,12 +79,11 @@ module Para
         true
       end
 
-      #
       def searchable?
         options[:searchable] != false && (
-          [:string, :text].include?(type.to_sym) && !name.match(/password/)
+          %i[string text].include?(type.to_sym) && !name.match(/password/)
         ) && (
-          !model.respond_to?(:ransackable_attributes) || 
+          !model.respond_to?(:ransackable_attributes) ||
           model.ransackable_attributes.include?(name.to_s)
         )
       end
@@ -94,7 +97,7 @@ module Para
       def field_options
         self.class._field_options.each_with_object({}) do |params, hash|
           value = send(params[:method_name])
-          hash[params[:key]] = value if value != nil || params[:options][:allow_nil]
+          hash[params[:key]] = value if !value.nil? || params[:options][:allow_nil]
         end
       end
 

@@ -42,8 +42,10 @@ module Para
           # attributes mappings above
           next if AttributeField::RelationField == fields_hash[name]
 
-          # Remove foreign key, if existing, from fields
-          fields_hash.delete(reflection.foreign_key.to_s)
+          unless through_polymorphic_reflection?(reflection)
+            # Remove foreign key, if existing, from fields
+            fields_hash.delete(reflection.foreign_key.to_s)
+          end
 
           # Do not process polymorphic belongs to for now ...
           if reflection.options[:polymorphic] == true
@@ -52,27 +54,25 @@ module Para
           end
 
           if model.nested_attributes_options[name]
-            if reflection.collection?
-              fields_hash[name] = AttributeField::NestedManyField.new(
-                model, name: name, type: 'has_many', field_type: 'nested_many'
-              )
-            else
-              fields_hash[name] = AttributeField::NestedOneField.new(
-                model, name: name, type: 'belongs_to', field_type: 'nested_one'
-              )
-            end
-          else
-            if reflection.collection?
-              remove_counter_cache_column!(name, reflection)
+            fields_hash[name] = if reflection.collection?
+                                  AttributeField::NestedManyField.new(
+                                    model, name: name, type: 'has_many', field_type: 'nested_many'
+                                  )
+                                else
+                                  AttributeField::NestedOneField.new(
+                                    model, name: name, type: 'belongs_to', field_type: 'nested_one'
+                                  )
+                                end
+          elsif reflection.collection?
+            remove_counter_cache_column!(name, reflection)
 
-              fields_hash[name] = AttributeField::HasManyField.new(
-                model, name: name, type: 'has_many', field_type: 'multi_select'
-              )
-            elsif !reflection.options[:through]
-              fields_hash[name] = AttributeField::BelongsToField.new(
-                model, name: name, type: 'belongs_to', field_type: 'selectize'
-              )
-            end
+            fields_hash[name] = AttributeField::HasManyField.new(
+              model, name: name, type: 'has_many', field_type: 'multi_select'
+            )
+          elsif !reflection.options[:through]
+            fields_hash[name] = AttributeField::BelongsToField.new(
+              model, name: name, type: 'belongs_to', field_type: 'selectize'
+            )
           end
         end
       end
@@ -84,13 +84,22 @@ module Para
         return unless (inverse_relation = reflection.inverse_of)
         return unless (counter_name = inverse_relation.options[:counter_cache])
 
-        counter_name = if String === counter_name
-          counter_name
-        else
-          "#{ name }_count"
-        end
+        counter_name = if counter_name.is_a?(String)
+                         counter_name
+                       else
+                         "#{name}_count"
+                       end
 
         fields_hash.delete(counter_name)
+      end
+
+      def through_polymorphic_reflection?(reflection)
+        reflection.through_reflection? && (
+          (
+            reflection.through_reflection.options[:polymorphic] &&
+            !reflection.through_reflection.options[:source_type]
+          ) || through_polymorphic_reflection?(reflection.through_reflection)
+        )
       end
     end
   end
