@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    para (0.12.1)
+    para (0.12.3)
       active_decorator (~> 1.0)
       activejob-status
       cancancan (~> 3.0)

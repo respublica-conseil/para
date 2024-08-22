@@ -8,3 +8,6 @@ application.register("para-admin-flash-message", ParaAdminFlashMessageController
 
 import SelectizeFieldController from "./selectize_field_controller";
 application.register("selectize-field", SelectizeFieldController);
+
+import NestedManyInputController from "./nested_many_input_controller";
+application.register("nested-many-input", NestedManyInputController);
