@@ -38,6 +38,11 @@ Para.config do |config|
   #
   # config.uncollapse_inset_nested_fields = false
 
+  # Set this to false if you want to define the :file and :image simple form inputs in the
+  # app, to customize them.
+  #
+  # config.load_file_inputs = false
+
   # Set if the Para::Breadcrumb::Controller module should be included into the
   # app, allowing easy breadcrumbs management in the app.
   #

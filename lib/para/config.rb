@@ -49,6 +49,12 @@ module Para
     mattr_accessor :uncollapse_inset_nested_fields
     @@uncollapse_inset_nested_fields = true
 
+    # Allow setting `load_file_inputs` to false to disable loading of simple form file
+    # inputs from SimpleFormExtension::Inputs module, allowing to use custom file inputs
+    # from the app.
+    mattr_accessor :load_file_inputs
+    @@load_file_inputs = true
+
     # Allows changing default cache store used by Para to store jobs through
     # the ActiveJob::Status gem
     #

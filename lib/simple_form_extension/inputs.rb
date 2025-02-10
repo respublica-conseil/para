@@ -8,9 +8,12 @@ module SimpleFormExtension
     autoload :CollectionCheckBoxesInput
     autoload :CollectionRadioButtonsInput
     autoload :ColorInput
-    autoload :FileInput
-    autoload :ImageInput
     autoload :SelectizeInput
     autoload :SliderInput
+
+    if Para.config.load_file_inputs
+      autoload :FileInput
+      autoload :ImageInput
+    end
   end
 end
