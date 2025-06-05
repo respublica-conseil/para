@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    para (0.12.5)
+    para (0.12.6)
       active_decorator (~> 1.0)
       activejob-status
       cancancan (~> 3.0)
@@ -316,6 +316,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-24
   x86_64-darwin-22
 
 DEPENDENCIES
@@ -328,4 +329,4 @@ DEPENDENCIES
   turbo-rails (~> 1.5)
 
 BUNDLED WITH
-   2.4.22
+   2.6.9
