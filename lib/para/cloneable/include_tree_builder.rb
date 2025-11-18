@@ -97,10 +97,7 @@ module Para
           # This is not the most optimized solution, but works well enough as if the
           # author's posts match previously cloned posts, they won't be cloned as they'll
           # exist in the cloned resources dictionary.
-          next if path.length >= 4 &&
-                  path[-4] == path[-2] &&
-                  path[-2] == reflection_name &&
-                  path[-3] == path[-1]
+          next if circular_reference?(path, reflection_name)
 
           hash[reflection_name] = {}
 
@@ -139,6 +136,8 @@ module Para
       def add_reflection_options(reflection_options, nested_resource, path)
         options = nested_resource.class.try(:cloneable_options)
         return reflection_options unless options
+
+        puts "Building cloneable options for #{nested_resource.class.name} at path #{path.join(' -> ')}"
 
         target_options = build_cloneable_options_tree(nested_resource, path)
         reflection_options.deep_merge!(target_options)
@@ -190,6 +189,43 @@ module Para
         end
 
         deep_relations.empty? ? shallow_relations : shallow_relations + [deep_relations]
+      end
+
+      # Checks if adding reflection_name to the path would create a circular reference
+      # of 2 levels deep with a cycle length between 2 and 10.
+      #
+      # Examples of detected patterns:
+      #
+      #   Length 2: [:a, :b, :a, :b]
+      #   Length 3: [:a, :b, :c, :a, :b, :c]
+      #   Length 4: [:a, :b, :c, :d, :a, :b, :c, :d]
+      #
+      def circular_reference?(path, reflection_name)
+        # Check for cycle lengths from 2 to 10
+        (2..10).each do |cycle_length|
+          # We need at least 2 * cycle_length elements in the path to detect a cycle
+          required_length = cycle_length * 2
+          next if path.length < required_length
+
+          # Check if the pattern repeats exactly twice
+          # The new reflection_name would be at position -cycle_length
+          match = true
+
+          # First, check if the element at -cycle_length position matches reflection_name
+          next unless path[-cycle_length] == reflection_name
+
+          # Then check if all other elements in the first cycle match the second cycle
+          (1...cycle_length).each do |offset|
+            if path[-(cycle_length + offset)] != path[-offset]
+              match = false
+              break
+            end
+          end
+
+          return true if match
+        end
+
+        false
       end
     end
   end
