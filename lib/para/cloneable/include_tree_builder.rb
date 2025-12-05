@@ -137,8 +137,6 @@ module Para
         options = nested_resource.class.try(:cloneable_options)
         return reflection_options unless options
 
-        puts "Building cloneable options for #{nested_resource.class.name} at path #{path.join(' -> ')}"
-
         target_options = build_cloneable_options_tree(nested_resource, path)
         reflection_options.deep_merge!(target_options)
       end
